@@ -10,7 +10,7 @@ Knowledge Fusion of Large Language Models
 <img src="https://img.shields.io/github/stars/18907305772/FuseLLM?color=yellow" alt="Stars">
 <img src="https://img.shields.io/github/issues/18907305772/FuseLLM?color=red" alt="Issues">
 
-<h4> |<a href="https://arxiv.org/abs/xxxx.xxxxx"> 📑 Paper </a> |
+<h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 Paper </a> |
 <a href="https://huggingface.co/datasets/Wanfq/FuseLLM-7B"> 🤗 Model </a> |
 <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 Github Repo </a> |
 </h4>
@@ -78,12 +78,12 @@ Since FuseLLM is also applicable to instruction-tuning models,  we assess the in
 If you find this work is relevant with your research or applications, please feel free to cite our work!
 ```
 @misc{wan2024knowledge,
-   title={Knowledge Fusion of Large Language Models},
-   author={Fanqi, Wan and Xinting, Huang and Deng, Cai and Xiaojun, Quan and Wei, Bi and Shuming, Shi},
-   year={2024},
-   eprint={xxxx.xxxxx},
-   archivePrefix={arXiv},
-   primaryClass={cs.CL}
+      title={Knowledge Fusion of Large Language Models}, 
+      author={Fanqi Wan and Xinting Huang and Deng Cai and Xiaojun Quan and Wei Bi and Shuming Shi},
+      year={2024},
+      eprint={2401.10491},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 ```
 
