@@ -7,8 +7,8 @@ Knowledge Fusion of Large Language Models
 -----------------------------
 <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Version"> 
 <img src="https://img.shields.io/badge/License-Apache_2.0-green.svg" alt="License">
-<img src="https://img.shields.io/github/stars/18907305772/FuseLLM?color=yellow" alt="Stars">
-<img src="https://img.shields.io/github/issues/18907305772/FuseLLM?color=red" alt="Issues">
+<img src="https://img.shields.io/github/stars/fanqiwan/FuseLLM?color=yellow" alt="Stars">
+<img src="https://img.shields.io/github/issues/fanqiwan/FuseLLM?color=red" alt="Issues">
 
 <h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 Paper </a> |
 <a href="https://huggingface.co/datasets/Wanfq/FuseLLM-7B"> 🤗 Model </a> |
