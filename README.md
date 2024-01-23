@@ -38,6 +38,9 @@ _<sup>†</sup> Sun Yat-sen University,
 - [Overview](#overview)
 - [Model Release](#model-release)
 - [Quick Start](#quick-start)
+- [Data Construction](#data-construction)
+- [Training](#training)
+- [Evaluation](#evaluation)
 - [Citation](#citation)
 - [Acknowledgements](#acknowledgments)
 
@@ -131,7 +134,7 @@ print(tokenizer.decode(tokens[0], skip_special_tokens=True))
 
 We also find `Exllama v2 Quantizations` version on [FuseLLM-7B-exl2](https://huggingface.co/bartowski/FuseLLM-7B-exl2), it uses [ExLlamaV2 v0.0.11](https://github.com/turboderp/exllamav2/releases/tag/v0.0.11) for quantization.
 
-### Data Construction
+## Data Construction
 
 We use the [MiniPile](https://huggingface.co/datasets/JeanKaddour/minipile) dataset for continual training. 
 
@@ -263,7 +266,7 @@ python3 ./src/utils/packing.py \
 
 The final processed data is at `${i}_8_<path_to_miniplie_fusellm_processed>`, where `i in {0..7}`.
 
-### Training
+## Training
 
 Here, we show the script for FuseLLM training.
 
@@ -317,7 +320,7 @@ deepspeed --master_port=20001 ./src/train.py \
   --remove_unused_columns False 2>&1 | tee "<path_to_log_file>"
 ```
 
-### Evaluation
+## Evaluation
 
 The evaluation code we used in our evaluation are list as follows:
 
