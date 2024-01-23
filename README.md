@@ -11,7 +11,7 @@ Knowledge Fusion of Large Language Models
 <img src="https://img.shields.io/github/issues/18907305772/FuseLLM?color=red" alt="Issues">
 
 <h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 Paper </a> |
-<a href="https://huggingface.co/datasets/Wanfq/FuseLLM-7B"> 🤗 Model </a> |
+<a href="https://huggingface.co/Wanfq/FuseLLM-7B"> 🤗 Model </a> |
 <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 Github Repo </a> |
 </h4>
 
