@@ -33,6 +33,13 @@ _<sup>†</sup> Sun Yat-sen University,
 - **Jan 23, 2024:** 🔥🔥 We release the code for FuseLLM, including the data construction and model training process!
 - **Jan 22, 2024:** 🔥 We're excited to announce that the FuseLLM-7B, which is the fusion of [Llama-2-7B](https://huggingface.co/meta-llama/Llama-2-7b-hf), [OpenLLaMA-7B](https://huggingface.co/openlm-research/open_llama_7b_v2), and [MPT-7B](https://huggingface.co/mosaicml/mpt-7b), is now available on 🤗 [Huggingface Models](https://huggingface.co/Wanfq/FuseLLM-7B). Happy exploring!
 
+
+## WIP
+
+| Source LLMs                                          | Target LLM      |
+|------------------------------------------------------|-----------------|
+ | Mixtral-8x7B-v0.1, SOLAR-10.7B-v1.0, Mistral-7B-v0.1 | Mistral-7B-v0.1 |
+
 ## Contents
 
 - [Overview](#overview)
