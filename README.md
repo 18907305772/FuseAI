@@ -286,7 +286,7 @@ deepspeed --master_port=20001 ./src/train.py \
   --training_mode full \
   --deepspeed ./config/zero_stage2_config.json \
   --model_name_or_path "<path_to_llama_2_7b>" \
-  --output_dir "path_to_fusellm_7b" \
+  --output_dir "<path_to_save_fusellm_7b>" \
   --model_max_length 2048 \
   --logging_steps 1 \
   --save_strategy steps \
