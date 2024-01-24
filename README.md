@@ -36,9 +36,11 @@ _<sup>†</sup> Sun Yat-sen University,
 
 ## WIP
 
-| Source LLMs                                          | Target LLM      |
-|------------------------------------------------------|-----------------|
- | Mixtral-8x7B-v0.1, SOLAR-10.7B-v1.0, Mistral-7B-v0.1 | Mistral-7B-v0.1 |
+| Source LLMs                                          | Target LLM        |
+|------------------------------------------------------|-------------------|
+ | Mixtral-8x7B-v0.1, SOLAR-10.7B-v1.0, Mistral-7B-v0.1 | Mistral-7B-v0.1   |
+| Mixtral-8x7B-v0.1, SOLAR-10.7B-v1.0, Mistral-7B-v0.1 | SOLAR-10.7B-v1.0  |
+| Mixtral-8x7B-v0.1, SOLAR-10.7B-v1.0, Mistral-7B-v0.1 | Mixtral-8x7B-v0.1 |
 
 ## Contents
 
