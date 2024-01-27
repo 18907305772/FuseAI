@@ -126,9 +126,9 @@ pip install -r requirements.txt
 ### Usage
 
 ```python
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModelForCausalLM
 tokenizer = AutoTokenizer.from_pretrained("Wanfq/FuseLLM-7B", use_fast=False)
-model = AutoModel.from_pretrained("Wanfq/FuseLLM-7B", torch_dtype="auto")
+model = AutoModelForCausalLM.from_pretrained("Wanfq/FuseLLM-7B", torch_dtype="auto")
 model.cuda()
 inputs = tokenizer("<your text here>", return_tensors="pt").to(model.device)
 tokens = model.generate(
