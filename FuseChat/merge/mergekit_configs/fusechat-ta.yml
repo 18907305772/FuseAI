@@ -1,0 +1,17 @@
+models:
+  - model: openchat/openchat_3.5
+    # no parameters necessary for base model
+  - model: FuseAI/OpenChat-3.5-7B-Mixtral
+    parameters:
+      density: 0.5 # density gradient
+      weight: 0.25
+  - model: FuseAI/OpenChat-3.5-7B-Solar
+    parameters:
+      density: 0.5
+      weight: 0.5 # weight gradient
+merge_method: task_arithmetic
+base_model: openchat/openchat_3.5
+parameters:
+  normalize: true
+dtype: bfloat16
+
