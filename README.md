@@ -33,7 +33,7 @@ Knowledge Fusion of Large Language Models
     <img src="./FuseChat/assets/fig_0.png" width="70%"> <br>
 </p>
 
-| Priority Models                                                       | #Params | MT-Bench | Open Source Models                                                    | #Params | MT-Bench |
+| Proprietary Models                                                    | #Params | MT-Bench | Open Source Models                                                    | #Params | MT-Bench |
 |-----------------------------------------------------------------------|---------|----------|-----------------------------------------------------------------------|---------|----------|
 | GPT-4-1106-preview                                                    | -       | 9.32     | Qwen1.5-72B-Chat                                                      | 72B     | 8.61     |
 | GPT-4-0613                                                            | -       | 9.18     | Nous-Hermes-2-Mixtral-8x7B-DPO                                        | 8x7B    | 8.33     |
