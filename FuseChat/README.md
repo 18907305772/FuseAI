@@ -10,7 +10,7 @@ FuseChat: Knowledge Fusion of Chat Models
 <img src="https://img.shields.io/github/stars/fanqiwan/FuseLLM?color=yellow" alt="Stars">
 <img src="https://img.shields.io/github/issues/fanqiwan/FuseLLM?color=red" alt="Issues">
 
-<h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 Paper </a> |
+<h4> |<a href="https://arxiv.org/abs/2402.16107"> 📑 Paper </a> |
 <a href="https://huggingface.co/FuseAI"> 🤗 Huggingface Repo </a> |
 <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 Github Repo </a> |
 </h4>
@@ -382,7 +382,7 @@ If you find this work is relevant with your research or applications, please fee
 @article{wan2024fusechat,
   title={FuseChat: Knowledge Fusion of Chat Models},
   author={Fanqi Wan and Ziyi Yang and Longguang Zhong and Xiaojun Quan and Xinting Huang and Wei Bi},
-  journal={arXiv preprint arXiv:2401.10491},
+  journal={arXiv preprint arXiv:2402.16107},
   year={2024}
 }
 ```

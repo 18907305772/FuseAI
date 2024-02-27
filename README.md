@@ -11,7 +11,7 @@ Knowledge Fusion of Large Language Models
 <img src="https://img.shields.io/github/issues/fanqiwan/FuseLLM?color=red" alt="Issues">
 
 <h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 FuseLLM Paper @ICLR2024 </a> |
-<a href="https://arxiv.org/abs/2401.10491"> 📑 FuseChat Tech Report </a> |
+<a href="https://arxiv.org/abs/2402.16107"> 📑 FuseChat Tech Report </a> |
 <a href="https://huggingface.co/FuseAI"> 🤗 Huggingface Repo </a> |
 <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 Github Repo </a> |
 </h4>
@@ -87,7 +87,7 @@ Please cite the paper if you refer to our model or code or data or paper from Fu
 @article{wan2024fusechat,
   title={FuseChat: Knowledge Fusion of Chat Models},
   author={Fanqi Wan and Ziyi Yang and Longguang Zhong and Xiaojun Quan and Xinting Huang and Wei Bi},
-  journal={arXiv preprint arXiv:2401.10491},
+  journal={arXiv preprint arXiv:2402.16107},
   year={2024}
 }
 ```
