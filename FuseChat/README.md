@@ -29,6 +29,21 @@ _Sun Yat-sen University_
     <img src="./assets/fig_0.png" width="70%"> <br>
 </p>
 
+| Proprietary Models                                                    | #Params | MT-Bench | Open Source Models                                                    | #Params | MT-Bench |
+|-----------------------------------------------------------------------|---------|----------|-----------------------------------------------------------------------|---------|----------|
+| GPT-4-1106-preview                                                    | -       | 9.32     | Qwen1.5-72B-Chat                                                      | 72B     | 8.61     |
+| GPT-4-0613                                                            | -       | 9.18     | Nous-Hermes-2-Mixtral-8x7B-DPO                                        | 8x7B    | 8.33     |
+| GPT-4-0314                                                            | -       | 8.96     | Mixtral-8x7B-Instruct-v0.1                                            | 8x7B    | 8.30     |
+| Mistral Medium                                                        | -       | 8.61     | 🤗 [FuseChat-7B-VaRM](https://huggingface.co/FuseAI/FuseChat-7B-VaRM) | 7B      | 8.22     |
+| GPT-3.5-Turbo-0613                                                    | -       | 8.39     | Starling-LM-7B-alpha                                                  | 7B      | 8.09     |
+| GPT-3.5-Turbo-1106                                                    | -       | 8.32     | Tulu-2-DPO-70B                                                        | 70B     | 7.89     |
+| 🤗 [FuseChat-7B-VaRM](https://huggingface.co/FuseAI/FuseChat-7B-VaRM) | 7B      | 8.22     | OpenChat-3.5                                                          | 7B      | 7.81     |
+| Claude-2.1                                                            | -       | 8.18     | OpenChat-3.5-0106                                                     | 7B      | 7.80     |
+| Claude-2.0                                                            | -       | 8.06     | WizardLM-70B-v1.0                                                     | 70B     | 7.71     |
+| GPT-3.5-Turbo-0314                                                    | -       | 7.94     | Yi-34B-Chat                                                           | 34B     | 7.67     |
+| Claude-1                                                              | -       | 7.90     | Nous-Hermes-2-SOLAR-10.7B                                             | 10.7B   | 7.66     |
+
+
 </div>
 
 
@@ -61,7 +76,7 @@ Moreover, we argue that the concept of knowledge fusion adopted by both FuseChat
 
 ## Model Release
 
-We release [FuseChat-7B-VaRM](https://huggingface.co/FuseAI/FuseChat-7B-VaRM), which is the fusion of three prominent chat LLMs with diverse architectures and scales, namely [NH2-Mixtral-8x7B](https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO), [NH2-Solar-10.7B](https://huggingface.co/NousResearch/Nous-Hermes-2-SOLAR-10.7B), and [OpenChat-3.5-7B](https://huggingface.co/openchat/openchat_3.5).
+We release [FuseChat-7B-VaRM](https://huggingface.co/FuseAI/FuseChat-7B-VaRM), which is the fusion of three prominent chat LLMs with diverse architectures and scales, namely [NH2-Mixtral-8x7B](https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO), [NH2-Solar-10.7B](https://huggingface.co/NousResearch/Nous-Hermes-2-SOLAR-10.7B), and [OpenChat-3.5-7B](https://huggingface.co/openchat/openchat_3.5). FuseChat-7B-VaRM achieves an average performance of **8.22** on MT-Bench, outperforming various powerful chat LLMs at 7B and 34B scales like [Starling-7B](https://huggingface.co/berkeley-nest/Starling-LM-7B-alpha) and [Yi-34B-Chat](https://huggingface.co/01-ai/Yi-34B-Chat), even surpassing [GPT-3.5 (March)](https://platform.openai.com/docs/models/gpt-3-5-turbo), [Claude-2.1](https://www.anthropic.com/news/claude-2-1), and approaching [Mixtral-8x7B-Instruct](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1).
 
 To support a plug-and-play fusion of new source LLM, we release our target LLMs: [OpenChat-3.5-7B-Solar](https://huggingface.co/FuseAI/OpenChat-3.5-7B-Solar) and [OpenChat-3.5-7B-Mixtral](https://huggingface.co/FuseAI/OpenChat-3.5-7B-Mixtral), which are obtained from pair-wise knowledge fusion. Integrating a new source LLM at any scale requires only obtaining a target LLM from the new source LLM and merging it with the existing target LLMs.
 
