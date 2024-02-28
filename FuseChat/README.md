@@ -324,7 +324,7 @@ torchrun --nproc_per_node=8 --master_port=20001 /train/train.py \
 We show the scripts to obtain the final FuseChat using different merging methods.
 
 ```bash
-# For "slerp", "ta", "ties", and "dare" methods
+# For "slerp", "ta", "ties", and "dare" methods (Please install "mergekit")
 export CUDA_VISIBLE_DEVICES=0
 mergekit-yaml merge/mergekit_configs/fusechat-slerp.yml "<path_to_save_fusechat_7b_slerp>"
 mergekit-yaml merge/mergekit_configs/fusechat-ta.yml "<path_to_save_fusechat_7b_ta>"
