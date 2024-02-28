@@ -71,7 +71,7 @@ Knowledge Fusion of Large Language Models
 
 ## Citation
 
-Please cite the paper if you refer to our model or code or data or paper from FuseLLM.
+Please cite the following paper if you reference our model, code, data, or paper related to FuseLLM.
 ```
 @inproceedings{wan2024knowledge,
   title={Knowledge Fusion of Large Language Models},
@@ -82,7 +82,7 @@ Please cite the paper if you refer to our model or code or data or paper from Fu
 }
 ```
 
-Please cite the paper if you refer to our model or code or data or paper from FuseChat.
+Please cite the following paper if you reference our model, code, data, or paper related to FuseChat.
 ```
 @article{wan2024fusechat,
   title={FuseChat: Knowledge Fusion of Chat Models},
