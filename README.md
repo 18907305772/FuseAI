@@ -12,8 +12,8 @@ Knowledge Fusion of Large Language Models
 
 <h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 FuseLLM Paper @ICLR2024 </a> |
 <a href="https://arxiv.org/abs/2402.16107"> 📑 FuseChat Tech Report </a> |
-<a href="https://huggingface.co/FuseAI"> 🤗 Huggingface Repo </a> |
-<a href="https://github.com/fanqiwan/FuseLLM"> 🐱 Github Repo </a> |
+<a href="https://huggingface.co/FuseAI"> 🤗 HuggingFace Repo </a> |
+<a href="https://github.com/fanqiwan/FuseLLM"> 🐱 GitHub Repo </a> |
 </h4>
 
 <p align="center">
@@ -28,6 +28,8 @@ Knowledge Fusion of Large Language Models
 ### FuseChat
 
 - **Feb 26, 2024:** 🔥🔥 We release [FuseChat-7B-VaRM](https://huggingface.co/FuseAI/FuseChat-7B-VaRM), which is the fusion of three prominent chat LLMs with diverse architectures and scales, namely [NH2-Mixtral-8x7B](https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO), [NH2-Solar-10.7B](https://huggingface.co/NousResearch/Nous-Hermes-2-SOLAR-10.7B), and [OpenChat-3.5-7B](https://huggingface.co/openchat/openchat_3.5). FuseChat-7B-VaRM achieves an average performance of **8.22** on MT-Bench, outperforming various powerful chat LLMs like [Starling-7B](https://huggingface.co/berkeley-nest/Starling-LM-7B-alpha), [Yi-34B-Chat](https://huggingface.co/01-ai/Yi-34B-Chat), and [Tulu-2-DPO-70B](https://huggingface.co/allenai/tulu-2-dpo-70b), even surpassing [GPT-3.5 (March)](https://platform.openai.com/docs/models/gpt-3-5-turbo), [Claude-2.1](https://www.anthropic.com/news/claude-2-1), and approaching [Mixtral-8x7B-Instruct](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1).
+
+- **Feb 25, 2024:** 🔥 We release [FuseChat-Mixture](https://huggingface.co/datasets/FuseAI/FuseChat-Mixture), which is a comprehensive training dataset covers different styles and capabilities, featuring both human-written and model-generated, and spanning general instruction-following and specific skills.
 
 <p align="center">
     <img src="./FuseChat/assets/fig_0.png" width="70%"> <br>
