@@ -29,6 +29,8 @@ _Sun Yat-sen University_
     <img src="./assets/fig_0.png" width="70%"> <br>
 </p>
 
+### FuseChat [SOTA 7B LLM on MT-Bench]
+
 | Proprietary Models                                                    | #Params | MT-Bench | Open Source Models                                                    | #Params | MT-Bench |
 |-----------------------------------------------------------------------|---------|----------|-----------------------------------------------------------------------|---------|----------|
 | GPT-4-1106-preview                                                    | -       | 9.32     | Qwen1.5-72B-Chat                                                      | 72B     | 8.61     |
