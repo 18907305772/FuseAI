@@ -49,7 +49,7 @@ Knowledge Fusion of Large Language Models
 | GPT-3.5-Turbo-0314                                                    | -       | 7.94     | Yi-34B-Chat                                                           | 34B     | 7.67     |
 | Claude-1                                                              | -       | 7.90     | Nous-Hermes-2-SOLAR-10.7B                                             | 10.7B   | 7.66     |
 
-### FuseLLM
+### FuseLLM [Surpassing Llama-2-7B]
 
 - **Jan 22, 2024:** 🔥 We release [FuseLLM-7B](https://huggingface.co/Wanfq/FuseLLM-7B), which is the fusion of three open-source foundation LLMs with distinct architectures, including [Llama-2-7B](https://huggingface.co/meta-llama/Llama-2-7b-hf), [OpenLLaMA-7B](https://huggingface.co/openlm-research/open_llama_7b_v2), and [MPT-7B](https://huggingface.co/mosaicml/mpt-7b).
 
