@@ -1,22 +1,24 @@
 """Full parameters & QLoRA Training."""
-import os
+
 import json
-import pathlib
 import math
+import os
+import pathlib
+
 import torch
-from transformers import Seq2SeqTrainer, EvalPrediction, set_seed
-from datasets import load_dataset, load_from_disk, concatenate_datasets, DatasetDict
+from datasets import DatasetDict, concatenate_datasets, load_dataset, load_from_disk
+from transformers import EvalPrediction, Seq2SeqTrainer, set_seed
+from utils.common import (
+    load_tokenizer_and_model,
+    prepare_args,
+)
+from utils.data_collator import DataCollatorForDistill, DataCollatorForSeq2Seq
 from utils.others import (
+    IGNORE_TOKEN_ID,
+    SavePeftModelCallback,
     get_logger,
     safe_save_model_for_hf_trainer,
-    SavePeftModelCallback,
-    IGNORE_TOKEN_ID
 )
-from utils.common import (
-    prepare_args,
-    load_tokenizer_and_model,
-)
-from utils.data_collator import DataCollatorForSeq2Seq, DataCollatorForDistill
 from utils.trainer import DistillTrainer
 
 logger = get_logger(__name__)
@@ -31,6 +33,7 @@ def train():
         from utils.llama_flash_attn_monkey_patch import (
             replace_llama_attn_with_flash_attn,
         )
+
         replace_llama_attn_with_flash_attn()
     if args.deepspeed is not None and "zero_stage3" in args.deepspeed:
         logger.info("Must use zero_to_fp32.py to save model!")
@@ -44,11 +47,17 @@ def train():
     else:
         raw_dataset = DatasetDict()
         if args.do_train:
-            raw_dataset["train"] = concatenate_datasets([load_from_disk(_)['train'] for _ in dataset_name_list])
+            raw_dataset["train"] = concatenate_datasets(
+                [load_from_disk(_)["train"] for _ in dataset_name_list]
+            )
         if args.do_eval:
-            raw_dataset["validation"] = concatenate_datasets([load_from_disk(_)['validation'] for _ in dataset_name_list])
+            raw_dataset["validation"] = concatenate_datasets(
+                [load_from_disk(_)["validation"] for _ in dataset_name_list]
+            )
         if args.do_eval:
-            raw_dataset["test"] = concatenate_datasets([load_from_disk(_)['test'] for _ in dataset_name_list])
+            raw_dataset["test"] = concatenate_datasets(
+                [load_from_disk(_)["test"] for _ in dataset_name_list]
+            )
     dataset = raw_dataset
     if args.do_train:
         train_dataset = dataset["train"]
@@ -62,33 +71,35 @@ def train():
             eval_dataset = eval_dataset.select(range(max_eval_samples))
 
     if args.do_distill:
-        data_collator = DataCollatorForDistill(tokenizer,
-                                               padding="max_length",
-                                               max_length=args.model_max_length,
-                                               label_pad_token_id=IGNORE_TOKEN_ID,
-                                               training_args=training_args,
-                                               )
+        data_collator = DataCollatorForDistill(
+            tokenizer,
+            padding="max_length",
+            max_length=args.model_max_length,
+            label_pad_token_id=IGNORE_TOKEN_ID,
+            training_args=training_args,
+        )
         trainer = DistillTrainer(
             model=model,
             tokenizer=tokenizer,
             args=training_args,
             train_dataset=train_dataset,
             eval_dataset=eval_dataset if args.do_eval else None,
-            data_collator=data_collator
+            data_collator=data_collator,
         )
     else:
-        data_collator = DataCollatorForSeq2Seq(tokenizer,
-                                               padding="max_length",
-                                               max_length=args.model_max_length,
-                                               label_pad_token_id=IGNORE_TOKEN_ID,
-                                               )
+        data_collator = DataCollatorForSeq2Seq(
+            tokenizer,
+            padding="max_length",
+            max_length=args.model_max_length,
+            label_pad_token_id=IGNORE_TOKEN_ID,
+        )
         trainer = Seq2SeqTrainer(
             model=model,
             tokenizer=tokenizer,
             args=training_args,
             train_dataset=train_dataset,
             eval_dataset=eval_dataset if args.do_eval else None,
-            data_collator=data_collator
+            data_collator=data_collator,
         )
     if args.training_mode == "qlora":
         trainer.add_callback(SavePeftModelCallback)
@@ -96,7 +107,9 @@ def train():
     # Training
     if args.do_train:
         logger.info("*** Train ***")
-        if args.training_mode == "full" and list(pathlib.Path(args.output_dir).glob("checkpoint-*")):
+        if args.training_mode == "full" and list(
+            pathlib.Path(args.output_dir).glob("checkpoint-*")
+        ):
             train_result = trainer.train(resume_from_checkpoint=True)
         else:
             # Note: `resume_from_checkpoint` not supported for adapter checkpoints by HF.
@@ -111,7 +124,9 @@ def train():
             if args.deepspeed is not None and "zero_stage3" in args.deepspeed:
                 trainer.save_model()
             else:
-                safe_save_model_for_hf_trainer(trainer=trainer, output_dir=args.output_dir)
+                safe_save_model_for_hf_trainer(
+                    trainer=trainer, output_dir=args.output_dir
+                )
         all_metrics.update(metrics)
     # Evaluation
     if args.do_eval:
@@ -126,7 +141,7 @@ def train():
         trainer.save_metrics("eval", metrics)
         all_metrics.update(metrics)
 
-    if (args.do_train or args.do_eval):
+    if args.do_train or args.do_eval:
         with open(os.path.join(args.output_dir, "metrics.json"), "w") as fout:
             fout.write(json.dumps(all_metrics))
 

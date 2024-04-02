@@ -1,10 +1,10 @@
 """4. Packing all features."""
 
-from itertools import chain
-from datasets import Features, load_dataset, load_from_disk, DatasetDict
 import argparse
 import math
+from itertools import chain
 
+from datasets import DatasetDict, Features, load_dataset, load_from_disk
 from src.utils.others import (
     get_logger,
 )
@@ -15,57 +15,36 @@ logger = get_logger(__name__)
 def parse_args():
     parser = argparse.ArgumentParser(description="Packing all features in dataset.")
     parser.add_argument(
-        "--dataset_dir",
-        type=str,
-        required=True,
-        help="The local dir to load data."
+        "--dataset_dir", type=str, required=True, help="The local dir to load data."
     )
     parser.add_argument(
         "--dataset_save_dir",
         type=str,
         required=True,
-        help="The local dir to save processed data."
+        help="The local dir to save processed data.",
     )
+    parser.add_argument("--cache_dir", type=str, default=None, help="The cache dir.")
     parser.add_argument(
-        "--cache_dir",
-        type=str,
-        default=None,
-        help="The cache dir."
-    )
-    parser.add_argument(
-        "--model_max_length",
-        type=int,
-        default=2048,
-        help="The model max length."
+        "--model_max_length", type=int, default=2048, help="The model max length."
     )
     parser.add_argument(
         "--preprocessing_num_workers",
         type=int,
         default=None,
-        help="The number of processes to do data loading."
+        help="The number of processes to do data loading.",
+    )
+    parser.add_argument("--batch_size", type=int, default=1000, help="The batch size.")
+    parser.add_argument(
+        "--metric_level", type=str, default="sequence", help="sequence or token."
     )
     parser.add_argument(
-        "--batch_size",
-        type=int,
-        default=1000,
-        help="The batch size."
-    )
-    parser.add_argument(
-        "--metric_level",
-        type=str,
-        default="sequence",
-        help="sequence or token."
-    )
-    parser.add_argument(
-        "--fiter_nan",
-        action="store_true",
-        help="Filter nan instances."
+        "--fiter_nan", action="store_true", help="Filter nan instances."
     )
     args = parser.parse_args()
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parse_args()
     logger.info(f"Data processing args: {args}")
     raw_dataset = load_from_disk(args.dataset_dir)
@@ -74,9 +53,9 @@ if __name__ == '__main__':
 
         def not_nan(example):
             return (
-                    not math.isnan(example["metric_ce"]) and
-                    not math.isnan(example["metric_ce_aligned_0"]) and
-                    not math.isnan(example["metric_ce_aligned_1"])
+                not math.isnan(example["metric_ce"])
+                and not math.isnan(example["metric_ce_aligned_0"])
+                and not math.isnan(example["metric_ce_aligned_1"])
             )
 
         for s, d in raw_dataset.items():
@@ -92,7 +71,10 @@ if __name__ == '__main__':
             for k, v in examples.items():
                 if "metric_ce" not in k:
                     continue
-                examples[k] = [[x] * len(examples["input_ids"][i]) for i, x in enumerate(examples[k])]
+                examples[k] = [
+                    [x] * len(examples["input_ids"][i])
+                    for i, x in enumerate(examples[k])
+                ]
         concatenated_examples = {k: list(chain(*examples[k])) for k in examples.keys()}
         total_length = len(concatenated_examples[list(examples.keys())[0]])
         # We drop the small remainder, and if the total_length < block_size  we exclude this batch and return an empty dict.
@@ -101,7 +83,7 @@ if __name__ == '__main__':
         # total_length = (total_length // block_size) * block_size
         # Split by chunks of max_len.
         result = {
-            k: [t[i: i + block_size] for i in range(0, total_length, block_size)]
+            k: [t[i : i + block_size] for i in range(0, total_length, block_size)]
             for k, t in concatenated_examples.items()
         }
         if args.metric_level == "sequence":
@@ -114,7 +96,9 @@ if __name__ == '__main__':
             for k, v in result.items():
                 if "per_step_metric_ce" not in k:
                     continue
-                result[k.replace("per_step_", "")] = [sum(x) / len(x) for i, x in enumerate(result[k])]
+                result[k.replace("per_step_", "")] = [
+                    sum(x) / len(x) for i, x in enumerate(result[k])
+                ]
                 remove_keys.append(k)
             for key in remove_keys:
                 del result[key]

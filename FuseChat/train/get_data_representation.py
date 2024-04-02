@@ -1,70 +1,99 @@
 """Get representation for sft training data."""
-import os
+
+import argparse
 import json
-import random
 import math
+import os
+import random
+
+import torch
+import torch.nn.functional as F
+import transformers
 from datasets import Dataset as HFDataset
 from datasets import DatasetDict as HFDatasetDict
 from datasets import load_from_disk
-import argparse
-import torch
-import transformers
-import torch.nn.functional as F
-
-from transformers.trainer_pt_utils import LabelSmoother
+from train import LazySupervisedDataset, SupervisedDataset
 from transformers.data.data_collator import DataCollatorWithPadding
-
-from train import SupervisedDataset, LazySupervisedDataset
+from transformers.trainer_pt_utils import LabelSmoother
 
 IGNORE_TOKEN_ID = LabelSmoother.ignore_index
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Forward for each teacher model to get logits of each token.")
-    parser.add_argument(
-        "--model_name_or_path", type=str, required=True, help="Path to pretrained model or model identifier from huggingface.co/models. It is the base model.",
+    parser = argparse.ArgumentParser(
+        description="Forward for each teacher model to get logits of each token."
     )
     parser.add_argument(
-        "--data_path", type=str, required=True, help="The input data dir. Should contain the training files."
+        "--model_name_or_path",
+        type=str,
+        required=True,
+        help="Path to pretrained model or model identifier from huggingface.co/models. It is the base model.",
     )
     parser.add_argument(
-        "--tknz_dataset_path", type=str, required=True, help="The local dir to save tknzed data."
+        "--data_path",
+        type=str,
+        required=True,
+        help="The input data dir. Should contain the training files.",
     )
     parser.add_argument(
-        "--dataset_save_dir", type=str, required=True, help="The local dir to save processed data."
+        "--tknz_dataset_path",
+        type=str,
+        required=True,
+        help="The local dir to save tknzed data.",
     )
     parser.add_argument(
-        "--dataset_sample_prop", type=float, default=None, help="The prop to sample dataset. Debugging only."
+        "--dataset_save_dir",
+        type=str,
+        required=True,
+        help="The local dir to save processed data.",
     )
     parser.add_argument(
-        "--dataset_split_num", type=int, default=None, help="The number to split dataset."
+        "--dataset_sample_prop",
+        type=float,
+        default=None,
+        help="The prop to sample dataset. Debugging only.",
+    )
+    parser.add_argument(
+        "--dataset_split_num",
+        type=int,
+        default=None,
+        help="The number to split dataset.",
     )
     parser.add_argument(
         "--dataset_index", type=int, default=None, help="The index of current dataset."
     )
+    parser.add_argument("--cache_dir", type=str, default=None, help="The cache dir.")
     parser.add_argument(
-        "--cache_dir", type=str, default=None, help="The cache dir."
+        "--model_max_length",
+        type=int,
+        default=2048,
+        help="model max length.",
     )
     parser.add_argument(
-        "--model_max_length", type=int, default=2048, help="model max length.",
+        "--load_in_half",
+        type=str,
+        default="none",
+        help="none/fp16/bf16",
     )
+    parser.add_argument("--batch_size", type=int, default=8, help="The batch size.")
     parser.add_argument(
-        "--load_in_half", type=str, default="none", help="none/fp16/bf16",
-    )
-    parser.add_argument(
-        "--batch_size", type=int, default=8, help="The batch size."
-    )
-    parser.add_argument(
-        "--preprocessing_num_workers", type=int, default=None, help="The number of processes to do data loading."
+        "--preprocessing_num_workers",
+        type=int,
+        default=None,
+        help="The number of processes to do data loading.",
     )
     parser.add_argument(
         "--top_k_logits", type=int, default=10, help="The number of logit for saving."
     )
     parser.add_argument(
-        "--save_per_token_metric", action="store_true", help="Save per token metric.",
+        "--save_per_token_metric",
+        action="store_true",
+        help="Save per token metric.",
     )
     parser.add_argument(
-        "--no_assert", action="store_true", help="Delete the assert.",
+        "--no_assert",
+        action="store_true",
+        help="Delete the assert.",
     )
     parser.add_argument(
         "--conv_temp", type=str, default="vicuna", help="The conversation template."
@@ -75,14 +104,12 @@ def parse_args():
     parser.add_argument(
         "--mask_instruction", action="store_true", help="Mask instruction in the data."
     )
-    parser.add_argument(
-        "--device_map", type=str, default=None, help="The device map."
-    )
+    parser.add_argument("--device_map", type=str, default=None, help="The device map.")
     args = parser.parse_args()
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parse_args()
     random.seed(42)
     print("Get data representation.")
@@ -90,7 +117,9 @@ if __name__ == '__main__':
     data_json = json.load(open(args.data_path, "r"))
 
     if args.mask_instruction is False:
-        print("WARNING: We will not mask instruction in the dialog since we set 'mask_instruction=False'.")
+        print(
+            "WARNING: We will not mask instruction in the dialog since we set 'mask_instruction=False'."
+        )
 
     if args.dataset_sample_prop is not None:
         print(f"Sample prop: {args.dataset_sample_prop}.")
@@ -101,12 +130,20 @@ if __name__ == '__main__':
     if args.dataset_split_num is not None:
         args.dataset_split_num = int(args.dataset_split_num)
         args.dataset_index = int(args.dataset_index)
-        print(f"Split num: {args.dataset_split_num}; Split index: {args.dataset_index}.")
+        print(
+            f"Split num: {args.dataset_split_num}; Split index: {args.dataset_index}."
+        )
         select_size = int(len(data_json) / args.dataset_split_num)
         start_index = args.dataset_index * select_size
-        end_index = (args.dataset_index + 1) * select_size if args.dataset_index + 1 < args.dataset_split_num else len(data_json)
-        select_dataset = data_json[start_index: end_index]
-        print(f"start_index: {start_index}, end_index: {end_index}, select_size: {len(select_dataset)}")
+        end_index = (
+            (args.dataset_index + 1) * select_size
+            if args.dataset_index + 1 < args.dataset_split_num
+            else len(data_json)
+        )
+        select_dataset = data_json[start_index:end_index]
+        print(
+            f"start_index: {start_index}, end_index: {end_index}, select_size: {len(select_dataset)}"
+        )
         data_json = select_dataset
 
     # 1. tokenize the dataset for the model.
@@ -126,12 +163,14 @@ if __name__ == '__main__':
     if os.path.exists(args.tknz_dataset_path):
         tknz_hfdataset = load_from_disk(args.tknz_dataset_path)
     else:
-        tknz_dataset = SupervisedDataset(data_json, tokenizer, args.conv_temp, args.mask_instruction)
-        tknz_data_dict = {'input_ids': [], 'labels': [], 'attention_mask': []}
+        tknz_dataset = SupervisedDataset(
+            data_json, tokenizer, args.conv_temp, args.mask_instruction
+        )
+        tknz_data_dict = {"input_ids": [], "labels": [], "attention_mask": []}
         for item in tknz_dataset:
-            tknz_data_dict['input_ids'].append(item['input_ids'])
-            tknz_data_dict['labels'].append(item['labels'])
-            tknz_data_dict['attention_mask'].append(item['attention_mask'])
+            tknz_data_dict["input_ids"].append(item["input_ids"])
+            tknz_data_dict["labels"].append(item["labels"])
+            tknz_data_dict["attention_mask"].append(item["attention_mask"])
         tknz_hfdataset = HFDatasetDict({"train": HFDataset.from_dict(tknz_data_dict)})
         tknz_hfdataset.save_to_disk(args.tknz_dataset_path)
 
@@ -140,7 +179,7 @@ if __name__ == '__main__':
     config = transformers.AutoConfig.from_pretrained(
         args.model_name_or_path,
         cache_dir=args.cache_dir,
-        trust_remote_code=trust_remote_code
+        trust_remote_code=trust_remote_code,
     )
     orig_ctx_len = getattr(config, "max_position_embeddings", None)
     if orig_ctx_len and args.model_max_length > orig_ctx_len:
@@ -176,7 +215,10 @@ if __name__ == '__main__':
     collate_function = DataCollatorWithPadding(tokenizer)
 
     def dict_to_list(examples):
-        return [{key: examples[key][i] for key in examples} for i in range(len(examples[next(iter(examples))]))]
+        return [
+            {key: examples[key][i] for key in examples}
+            for i in range(len(examples[next(iter(examples))]))
+        ]
 
     def forward_for_logits(examples):
         features = dict_to_list(examples)
@@ -188,17 +230,30 @@ if __name__ == '__main__':
         else:
             input_ids = features["input_ids"]
             attention_mask = features["attention_mask"]
-            labels = features['labels']
+            labels = features["labels"]
         with torch.no_grad():  # logits[-1] is not used; labels[0] is not used;
-            logits = model(input_ids=input_ids, attention_mask=attention_mask).logits.to(torch.float16)
-            metric_ce = F.cross_entropy(logits[..., :-1, :].contiguous().view(-1, logits.size(-1)),
-                                        labels[..., 1:].contiguous().view(-1), reduction="none").view(logits.size(0), -1).to(torch.float16)
+            logits = model(
+                input_ids=input_ids, attention_mask=attention_mask
+            ).logits.to(torch.float16)
+            metric_ce = (
+                F.cross_entropy(
+                    logits[..., :-1, :].contiguous().view(-1, logits.size(-1)),
+                    labels[..., 1:].contiguous().view(-1),
+                    reduction="none",
+                )
+                .view(logits.size(0), -1)
+                .to(torch.float16)
+            )
             if args.save_per_token_metric:
                 examples["per_step_metric_ce"] = metric_ce.cpu()  # [bs, 2047]
             if args.mask_instruction is True:
-                metric_ce = (metric_ce * labels.ne(IGNORE_TOKEN_ID)[..., 1:]).sum(dim=-1) / labels.ne(IGNORE_TOKEN_ID)[..., 1:].sum(dim=-1)
+                metric_ce = (metric_ce * labels.ne(IGNORE_TOKEN_ID)[..., 1:]).sum(
+                    dim=-1
+                ) / labels.ne(IGNORE_TOKEN_ID)[..., 1:].sum(dim=-1)
             else:
-                metric_ce = (metric_ce * attention_mask[..., 1:]).sum(dim=-1) / attention_mask[..., 1:].sum(dim=-1)
+                metric_ce = (metric_ce * attention_mask[..., 1:]).sum(
+                    dim=-1
+                ) / attention_mask[..., 1:].sum(dim=-1)
             logits = logits.cpu()
             metric_ce = metric_ce.cpu()
             if not args.no_assert:

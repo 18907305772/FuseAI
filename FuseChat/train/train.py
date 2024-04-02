@@ -14,24 +14,24 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-from dataclasses import dataclass, field
 import json
 import math
 import pathlib
+import random
+from dataclasses import dataclass, field
 from typing import Dict, Optional, Sequence
-import random;random.seed(42)
 
+random.seed(42)
+
+import datasets
 import torch
-from torch.utils.data import Dataset
 import transformers
+from data_collator import DataCollatorForDistill
+from model.model_adapter import get_conversation_template
+from torch.utils.data import Dataset
+from trainer import DistillTrainer
 from transformers import Trainer
 from transformers.trainer_pt_utils import LabelSmoother
-import datasets
-
-from model.model_adapter import get_conversation_template
-
-from data_collator import DataCollatorForDistill
-from trainer import DistillTrainer
 
 IGNORE_TOKEN_ID = LabelSmoother.ignore_index
 
@@ -69,48 +69,44 @@ class TrainingArguments(transformers.TrainingArguments):
     flash_attn_transformers: bool = False
     # distill args
     do_distill: Optional[bool] = field(
-        default=False,
-        metadata={"help": "Whether to distill logits during training."}
+        default=False, metadata={"help": "Whether to distill logits during training."}
     )
     distill_with_ref_model: Optional[bool] = field(
-        default=True,
-        metadata={"help": "Whether to use ref model during distilling."}
+        default=True, metadata={"help": "Whether to use ref model during distilling."}
     )
     distill_with_aligned_model_0: Optional[bool] = field(
         default=True,
-        metadata={"help": "Whether to use aligned model 0 duriing distilling."}
+        metadata={"help": "Whether to use aligned model 0 duriing distilling."},
     )
     distill_with_aligned_model_1: Optional[bool] = field(
         default=True,
-        metadata={"help": "Whether to use aligned model 1 duriing distilling."}
+        metadata={"help": "Whether to use aligned model 1 duriing distilling."},
     )
     distill_loss_type: Optional[str] = field(
-        default="ce",
-        metadata={"help": "The distill loss type, could be ce or kl."}
+        default="ce", metadata={"help": "The distill loss type, could be ce or kl."}
     )
     distill_teacher_temperature: Optional[float] = field(
         default=1.0,
-        metadata={"help": "The temperature used for teacher during distilling."}
+        metadata={"help": "The temperature used for teacher during distilling."},
     )
     lm_loss_weight: Optional[float] = field(
-        default=1.0,
-        metadata={"help": "The weight of language loss during distilling."}
+        default=1.0, metadata={"help": "The weight of language loss during distilling."}
     )
     distill_greater_as_gt: Optional[bool] = field(
         default=False,
-        metadata={"help": "Use logits from greater teacher as ground truth label."}
+        metadata={"help": "Use logits from greater teacher as ground truth label."},
     )
     distill_greater_as_gt_type: Optional[str] = field(
         default="hard",
-        metadata={"help": "hard or soft or hard_and_pair or soft_and_pair."}
+        metadata={"help": "hard or soft or hard_and_pair or soft_and_pair."},
     )
     distill_weighted_as_gt: Optional[bool] = field(
         default=False,
-        metadata={"help": "Use logits from weighted teacher as ground truth label."}
+        metadata={"help": "Use logits from weighted teacher as ground truth label."},
     )
     distill_weighted_as_gt_type: Optional[str] = field(
         default="hard",
-        metadata={"help": "hard or soft or hard_and_pair or soft_and_pair."}
+        metadata={"help": "hard or soft or hard_and_pair or soft_and_pair."},
     )
 
 
@@ -181,7 +177,7 @@ def preprocess(
                         break
                     turn_len = len(tokenizer(turn).input_ids)
                     if i % 2 == 0:
-                        target[cur_len: cur_len + turn_len] = IGNORE_TOKEN_ID
+                        target[cur_len : cur_len + turn_len] = IGNORE_TOKEN_ID
                         cur_len += turn_len
                     else:
                         part = sep
@@ -193,7 +189,7 @@ def preprocess(
                             instruction_len -= 1
 
                         # Ignore the user instructions
-                        target[cur_len: cur_len + instruction_len] = IGNORE_TOKEN_ID
+                        target[cur_len : cur_len + instruction_len] = IGNORE_TOKEN_ID
                         cur_len += turn_len
 
                         if i != 0 and not tokenizer.legacy:
@@ -244,7 +240,7 @@ def preprocess(
                         instruction_len -= 1
 
                     # Ignore the user instructions
-                    target[cur_len: cur_len + instruction_len] = IGNORE_TOKEN_ID
+                    target[cur_len : cur_len + instruction_len] = IGNORE_TOKEN_ID
                     cur_len += turn_len
 
                     if i != 0 and not tokenizer.legacy:
@@ -280,7 +276,13 @@ def preprocess(
 class SupervisedDataset(Dataset):
     """Dataset for supervised fine-tuning."""
 
-    def __init__(self, raw_data, tokenizer: transformers.PreTrainedTokenizer, conv_temp: str, mask_instruction: bool = True):
+    def __init__(
+        self,
+        raw_data,
+        tokenizer: transformers.PreTrainedTokenizer,
+        conv_temp: str,
+        mask_instruction: bool = True,
+    ):
         super(SupervisedDataset, self).__init__()
 
         print(f"Formatting inputs with '{conv_temp}' conversation template...")
@@ -306,11 +308,19 @@ class SupervisedDataset(Dataset):
 class LazySupervisedDataset(Dataset):
     """Dataset for supervised fine-tuning."""
 
-    def __init__(self, raw_data, tokenizer: transformers.PreTrainedTokenizer, conv_temp: str, mask_instruction: bool = True):
+    def __init__(
+        self,
+        raw_data,
+        tokenizer: transformers.PreTrainedTokenizer,
+        conv_temp: str,
+        mask_instruction: bool = True,
+    ):
         super(LazySupervisedDataset, self).__init__()
         self.tokenizer = tokenizer
 
-        print(f"Formatting inputs with '{conv_temp}' conversation template...Skip in lazy mode")
+        print(
+            f"Formatting inputs with '{conv_temp}' conversation template...Skip in lazy mode"
+        )
         self.tokenizer = tokenizer
         self.raw_data = raw_data
         self.conv_temp = conv_temp
@@ -323,7 +333,12 @@ class LazySupervisedDataset(Dataset):
     def __getitem__(self, i) -> Dict[str, torch.Tensor]:
         if i in self.cached_data_dict:
             return self.cached_data_dict[i]
-        ret = preprocess([self.raw_data[i]["conversations"]], self.tokenizer, [self.conv_temp], self.mask_instruction)
+        ret = preprocess(
+            [self.raw_data[i]["conversations"]],
+            self.tokenizer,
+            [self.conv_temp],
+            self.mask_instruction,
+        )
         ret = dict(
             input_ids=ret["input_ids"][0],
             labels=ret["labels"][0],
@@ -344,21 +359,31 @@ def make_supervised_data_module(
     print(f"Loading data from {data_args.data_path}...")
 
     train_json = json.load(open(data_args.data_path, "r"))
-    train_json = random.sample(train_json, len(train_json))  # same as code from MetaMath
-    train_dataset = dataset_cls(train_json, tokenizer=tokenizer, conv_temp=data_args.conv_temp, mask_instruction=data_args.mask_instruction)
+    train_json = random.sample(
+        train_json, len(train_json)
+    )  # same as code from MetaMath
+    train_dataset = dataset_cls(
+        train_json,
+        tokenizer=tokenizer,
+        conv_temp=data_args.conv_temp,
+        mask_instruction=data_args.mask_instruction,
+    )
 
     if data_args.eval_data_path:
         eval_json = json.load(open(data_args.eval_data_path, "r"))
-        eval_dataset = dataset_cls(eval_json, tokenizer=tokenizer, conv_temp=data_args.conv_temp, mask_instruction=data_args.mask_instruction)
+        eval_dataset = dataset_cls(
+            eval_json,
+            tokenizer=tokenizer,
+            conv_temp=data_args.conv_temp,
+            mask_instruction=data_args.mask_instruction,
+        )
     else:
         eval_dataset = None
 
     return dict(train_dataset=train_dataset, eval_dataset=eval_dataset)
 
 
-def make_distill_data_module(
-    tokenizer, data_args, training_args
-) -> Dict:
+def make_distill_data_module(tokenizer, data_args, training_args) -> Dict:
     """make dataset and collator for distilling."""
     print(f"Loading data from {data_args.data_path}...")
     dataset_name_list = data_args.data_path.split(",")
@@ -367,22 +392,31 @@ def make_distill_data_module(
     else:
         raw_dataset = datasets.DatasetDict()
         if training_args.do_train:
-            raw_dataset["train"] = datasets.concatenate_datasets([datasets.load_from_disk(_)['train'] for _ in dataset_name_list])
+            raw_dataset["train"] = datasets.concatenate_datasets(
+                [datasets.load_from_disk(_)["train"] for _ in dataset_name_list]
+            )
         if training_args.do_eval:
-            raw_dataset["validation"] = datasets.concatenate_datasets([datasets.load_from_disk(_)['validation'] for _ in dataset_name_list])
+            raw_dataset["validation"] = datasets.concatenate_datasets(
+                [datasets.load_from_disk(_)["validation"] for _ in dataset_name_list]
+            )
     train_dataset = raw_dataset["train"].shuffle(seed=42)  # same as code from MetaMath
-    data_collator = DataCollatorForDistill(tokenizer,
-                                           padding="max_length",
-                                           max_length=training_args.model_max_length,
-                                           label_pad_token_id=IGNORE_TOKEN_ID,
-                                           training_args=training_args,
-                                           )
+    data_collator = DataCollatorForDistill(
+        tokenizer,
+        padding="max_length",
+        max_length=training_args.model_max_length,
+        label_pad_token_id=IGNORE_TOKEN_ID,
+        training_args=training_args,
+    )
     if "validation" in raw_dataset:
         eval_dataset = raw_dataset["validation"]
     else:
         eval_dataset = None
 
-    return dict(train_dataset=train_dataset, eval_dataset=eval_dataset, data_collator=data_collator)
+    return dict(
+        train_dataset=train_dataset,
+        eval_dataset=eval_dataset,
+        data_collator=data_collator,
+    )
 
 
 def train():
@@ -403,7 +437,7 @@ def train():
     config = transformers.AutoConfig.from_pretrained(
         model_args.model_name_or_path,
         cache_dir=training_args.cache_dir,
-        trust_remote_code=trust_remote_code
+        trust_remote_code=trust_remote_code,
     )
     orig_ctx_len = getattr(config, "max_position_embeddings", None)
     if orig_ctx_len and training_args.model_max_length > orig_ctx_len:
@@ -424,7 +458,7 @@ def train():
         cache_dir=training_args.cache_dir,
         use_flash_attention_2=True if training_args.flash_attn_transformers else False,
         torch_dtype=compute_dtype,
-        trust_remote_code=trust_remote_code
+        trust_remote_code=trust_remote_code,
     )
     tokenizer = transformers.AutoTokenizer.from_pretrained(
         model_args.model_name_or_path,
@@ -438,14 +472,18 @@ def train():
 
     if training_args.do_distill:
         # Load data
-        data_module = make_distill_data_module(tokenizer=tokenizer, data_args=data_args, training_args=training_args)
+        data_module = make_distill_data_module(
+            tokenizer=tokenizer, data_args=data_args, training_args=training_args
+        )
         # Start trainner
         trainer = DistillTrainer(
             model=model, tokenizer=tokenizer, args=training_args, **data_module
         )
     else:
         # Load data
-        data_module = make_supervised_data_module(tokenizer=tokenizer, data_args=data_args)
+        data_module = make_supervised_data_module(
+            tokenizer=tokenizer, data_args=data_args
+        )
         # Start trainner
         trainer = Trainer(
             model=model, tokenizer=tokenizer, args=training_args, **data_module

@@ -1,7 +1,9 @@
 """Filter instances with NaN loss."""
+
 import argparse
-from datasets import load_dataset, load_from_disk, DatasetDict
+
 import numpy as np
+from datasets import DatasetDict, load_dataset, load_from_disk
 
 
 def parse_args():
@@ -23,7 +25,12 @@ def parse_args():
 
 
 def check_nan(example):
-    return not (np.isnan(example["metric_ce"]) or np.isnan(example["metric_ce_aligned_0"]) or np.isnan(example["metric_ce_aligned_1"]))
+    return not (
+        np.isnan(example["metric_ce"])
+        or np.isnan(example["metric_ce_aligned_0"])
+        or np.isnan(example["metric_ce_aligned_1"])
+    )
+
 
 if __name__ == "__main__":
     args = parse_args()

@@ -1,26 +1,36 @@
 import json
-from fire import Fire
 import re
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-import numpy as np
 from copy import deepcopy
 
-BASE_MODEL_NAME="openchat/openchat_3.5"
+import numpy as np
+import torch
+from fire import Fire
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+BASE_MODEL_NAME = "openchat/openchat_3.5"
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL_NAME)
 
 
-def get_merge_weights(weights, temp=1., use_sfmax=False):
+def get_merge_weights(weights, temp=1.0, use_sfmax=False):
     if use_sfmax:
-        weights = torch.nn.functional.softmax(torch.tensor(weights/temp), dim=-1).numpy()
+        weights = torch.nn.functional.softmax(
+            torch.tensor(weights / temp), dim=-1
+        ).numpy()
     else:
         weights = weights / sum(weights)
     return weights
 
 
-def merge_with_total_wegihts(model_name_list, analysis_result, excluded_pattern=None, temp=1., use_sfmax=False, merge_type=None):
-    models=[]
-    diff_rate_list=[]
+def merge_with_total_wegihts(
+    model_name_list,
+    analysis_result,
+    excluded_pattern=None,
+    temp=1.0,
+    use_sfmax=False,
+    merge_type=None,
+):
+    models = []
+    diff_rate_list = []
 
     for model_name in model_name_list:
         model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -44,7 +54,10 @@ def merge_with_total_wegihts(model_name_list, analysis_result, excluded_pattern=
             pattern = "|".join(map(re.escape, excluded_pattern))
             if re.search(pattern, param_name):
                 continue
-        weighted_param = sum(weight * model.state_dict()[param_name] for model, weight in zip(models, weights))
+        weighted_param = sum(
+            weight * model.state_dict()[param_name]
+            for model, weight in zip(models, weights)
+        )
 
         # Convert the weighted parameters to bfloat16
         weighted_param = weighted_param.to(torch.bfloat16)
@@ -55,9 +68,16 @@ def merge_with_total_wegihts(model_name_list, analysis_result, excluded_pattern=
     return merged_model
 
 
-def merge_with_model_wegihts(model_name_list, analysis_result, excluded_pattern=None, temp=1., use_sfmax=False, merge_type=None):
-    models=[]
-    aveage_var_degree_list=[]
+def merge_with_model_wegihts(
+    model_name_list,
+    analysis_result,
+    excluded_pattern=None,
+    temp=1.0,
+    use_sfmax=False,
+    merge_type=None,
+):
+    models = []
+    aveage_var_degree_list = []
 
     for model_name in model_name_list:
         model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -79,7 +99,10 @@ def merge_with_model_wegihts(model_name_list, analysis_result, excluded_pattern=
             pattern = "|".join(map(re.escape, excluded_pattern))
             if re.search(pattern, param_name):
                 continue
-        weighted_param = sum(weight * model.state_dict()[param_name] for model, weight in zip(models, weights))
+        weighted_param = sum(
+            weight * model.state_dict()[param_name]
+            for model, weight in zip(models, weights)
+        )
 
         # Convert the weighted parameters to bfloat16
         weighted_param = weighted_param.to(torch.bfloat16)
@@ -90,9 +113,16 @@ def merge_with_model_wegihts(model_name_list, analysis_result, excluded_pattern=
     return merged_model
 
 
-def merge_with_layer_wegihts(model_name_list, analysis_result, excluded_pattern=None, temp=1., use_sfmax=False, merge_type=None):
-    models=[]
-    layer_to_params_list=[]
+def merge_with_layer_wegihts(
+    model_name_list,
+    analysis_result,
+    excluded_pattern=None,
+    temp=1.0,
+    use_sfmax=False,
+    merge_type=None,
+):
+    models = []
+    layer_to_params_list = []
 
     for model_name in model_name_list:
         model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -109,9 +139,9 @@ def merge_with_layer_wegihts(model_name_list, analysis_result, excluded_pattern=
         if excluded_pattern != None and len(excluded_pattern) != 0:
             pattern = "|".join(map(re.escape, excluded_pattern))
             if re.search(pattern, param_name):
-                continue 
+                continue
 
-        weights=np.array([1] * len(layer_to_params_list))
+        weights = np.array([1] * len(layer_to_params_list))
 
         if "layers" in param_name:
             layer_num = param_name.split(".layers.")[1].split(".")[0]
@@ -119,7 +149,10 @@ def merge_with_layer_wegihts(model_name_list, analysis_result, excluded_pattern=
 
         weights = get_merge_weights(weights, temp=temp, use_sfmax=use_sfmax)
         print(f"param_name:{param_name} merge_weights:{weights}\n")
-        weighted_param = sum(weight * model.state_dict()[param_name] for model, weight in zip(models, weights))
+        weighted_param = sum(
+            weight * model.state_dict()[param_name]
+            for model, weight in zip(models, weights)
+        )
 
         # Convert the weighted parameters to bfloat16
         weighted_param = weighted_param.to(torch.bfloat16)
@@ -130,9 +163,16 @@ def merge_with_layer_wegihts(model_name_list, analysis_result, excluded_pattern=
     return merged_model
 
 
-def merge_with_module_wegihts(model_name_list, analysis_result, excluded_pattern=None, temp=1., use_sfmax=False, merge_type=None):
-    models=[]
-    module_to_params_list=[]
+def merge_with_module_wegihts(
+    model_name_list,
+    analysis_result,
+    excluded_pattern=None,
+    temp=1.0,
+    use_sfmax=False,
+    merge_type=None,
+):
+    models = []
+    module_to_params_list = []
 
     for model_name in model_name_list:
         model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -144,7 +184,7 @@ def merge_with_module_wegihts(model_name_list, analysis_result, excluded_pattern
             module_to_params_list.append(module_to_params)
 
     merged_model = deepcopy(models[0])
-    merged_weights=[]
+    merged_weights = []
 
     for param_name, param in merged_model.named_parameters():
         if excluded_pattern != None and len(excluded_pattern) != 0:
@@ -153,20 +193,30 @@ def merge_with_module_wegihts(model_name_list, analysis_result, excluded_pattern
                 continue
 
         trimed_name = deepcopy(param_name)
-        for module_name in ["self_attn", "mlp", "input_layernorm", "post_attention_layernorm"]:
+        for module_name in [
+            "self_attn",
+            "mlp",
+            "input_layernorm",
+            "post_attention_layernorm",
+        ]:
             if module_name in trimed_name:
-                trimed_name = trimed_name[:trimed_name.find(module_name) + len(module_name)]
+                trimed_name = trimed_name[
+                    : trimed_name.find(module_name) + len(module_name)
+                ]
                 break
 
         weights = np.array([abs(ktp[trimed_name]) for ktp in module_to_params_list])
         for ktp in module_to_params_list:
             if ktp[trimed_name] == 0:
-                weights=np.array([1] * len(module_to_params_list))
+                weights = np.array([1] * len(module_to_params_list))
 
         weights = get_merge_weights(weights, temp=temp, use_sfmax=use_sfmax)
         print(f"param_name:{param_name} merge_weights:{weights}\n")
         merged_weights.append(f"param_name:{param_name} merge_weights:{weights}\n")
-        weighted_param = sum(weight * model.state_dict()[param_name] for model, weight in zip(models, weights))
+        weighted_param = sum(
+            weight * model.state_dict()[param_name]
+            for model, weight in zip(models, weights)
+        )
 
         # Convert the weighted parameters to bfloat16
         weighted_param = weighted_param.to(torch.bfloat16)
@@ -177,9 +227,16 @@ def merge_with_module_wegihts(model_name_list, analysis_result, excluded_pattern
     return merged_model
 
 
-def merge_with_param_wegihts(model_name_list, analysis_result, excluded_pattern=None, temp=1., use_sfmax=False, merge_type=None):
-    models=[]
-    key_to_params_list=[]
+def merge_with_param_wegihts(
+    model_name_list,
+    analysis_result,
+    excluded_pattern=None,
+    temp=1.0,
+    use_sfmax=False,
+    merge_type=None,
+):
+    models = []
+    key_to_params_list = []
     for model_name in model_name_list:
         model = AutoModelForCausalLM.from_pretrained(model_name)
         model = model.to(dtype=torch.bfloat16)
@@ -201,10 +258,13 @@ def merge_with_param_wegihts(model_name_list, analysis_result, excluded_pattern=
 
         for ktp in key_to_params_list:
             if ktp[param_name] == 0:
-                weights=np.array([1] * len(key_to_params_list))
+                weights = np.array([1] * len(key_to_params_list))
         weights = get_merge_weights(weights, temp=temp, use_sfmax=use_sfmax)
         print(f"layer:{param_name} merge_weights:{weights}\n")
-        weighted_param = sum(weight * model.state_dict()[param_name] for model, weight in zip(models, weights))
+        weighted_param = sum(
+            weight * model.state_dict()[param_name]
+            for model, weight in zip(models, weights)
+        )
 
         # Convert the weighted parameters to bfloat16
         weighted_param = weighted_param.to(torch.bfloat16)
@@ -215,15 +275,22 @@ def merge_with_param_wegihts(model_name_list, analysis_result, excluded_pattern=
     return merged_model
 
 
-def merge_with_item_wegihts(model_name_list, analysis_result, excluded_pattern=None, temp=1., use_sfmax=False, merge_type=None):
+def merge_with_item_wegihts(
+    model_name_list,
+    analysis_result,
+    excluded_pattern=None,
+    temp=1.0,
+    use_sfmax=False,
+    merge_type=None,
+):
     base_model = AutoModelForCausalLM.from_pretrained(BASE_MODEL_NAME)
-    models=[]
+    models = []
     for model_name in model_name_list:
         model = AutoModelForCausalLM.from_pretrained(model_name)
         model = model.to(dtype=torch.bfloat16)
         models.append(model)
 
-    merged_model = deepcopy(models[0]) 
+    merged_model = deepcopy(models[0])
 
     for param_name, param in merged_model.named_parameters():
         if excluded_pattern != None and len(excluded_pattern) != 0:
@@ -234,11 +301,17 @@ def merge_with_item_wegihts(model_name_list, analysis_result, excluded_pattern=N
         weights = []
         for model in models:
             if merge_type == "default":
-                weight = model.state_dict()[param_name] - base_model.state_dict()[param_name]
+                weight = (
+                    model.state_dict()[param_name] - base_model.state_dict()[param_name]
+                )
             elif merge_type == "abs":
-                weight = torch.abs(model.state_dict()[param_name] - base_model.state_dict()[param_name])
+                weight = torch.abs(
+                    model.state_dict()[param_name] - base_model.state_dict()[param_name]
+                )
             elif merge_type == "squre":
-                weight = (model.state_dict()[param_name] - base_model.state_dict()[param_name]) ** 2
+                weight = (
+                    model.state_dict()[param_name] - base_model.state_dict()[param_name]
+                ) ** 2
             else:
                 raise NotImplementedError
             weights.append(weight)
@@ -247,7 +320,10 @@ def merge_with_item_wegihts(model_name_list, analysis_result, excluded_pattern=N
             sum_weights += weight
         sum_weights[sum_weights < 1e-13] = 1e-13
         weights = [weight / sum_weights for weight in weights]
-        weighted_param = sum(weight * model.state_dict()[param_name] for model, weight in zip(models, weights))
+        weighted_param = sum(
+            weight * model.state_dict()[param_name]
+            for model, weight in zip(models, weights)
+        )
 
         # Convert the weighted parameters to bfloat16
         weighted_param = weighted_param.to(torch.bfloat16)
@@ -265,7 +341,7 @@ def weighted_merge_models(model_name_list, weights, excluded_pattern=None):
     :param weights: list of floats, weights for each model
     :return: Transformers model, merged model
     """
-    models=[]
+    models = []
     for model_name in model_name_list:
         model = AutoModelForCausalLM.from_pretrained(model_name)
         model = model.to(dtype=torch.bfloat16)
@@ -281,7 +357,10 @@ def weighted_merge_models(model_name_list, weights, excluded_pattern=None):
             if re.search(pattern, param_name):
                 continue
         # Calculate the weighted average of the parameters across all models
-        weighted_param = sum(weight * model.state_dict()[param_name] for model, weight in zip(models, weights))
+        weighted_param = sum(
+            weight * model.state_dict()[param_name]
+            for model, weight in zip(models, weights)
+        )
 
         # Convert the weighted parameters to bfloat16
         weighted_param = weighted_param.to(torch.bfloat16)
@@ -291,7 +370,18 @@ def weighted_merge_models(model_name_list, weights, excluded_pattern=None):
 
     return merged_model
 
-def main(merged_model_names, analysis_result=None, merged_model_save_dir=None, merge_method="linear", temp=1., use_sfmax=False, merge_type=None, linear_weights="1,1", excluded_pattern=""):
+
+def main(
+    merged_model_names,
+    analysis_result=None,
+    merged_model_save_dir=None,
+    merge_method="linear",
+    temp=1.0,
+    use_sfmax=False,
+    merge_type=None,
+    linear_weights="1,1",
+    excluded_pattern="",
+):
     merged_method_maps = {
         "avg_model": merge_with_model_wegihts,
         "avg_layer": merge_with_layer_wegihts,
@@ -303,17 +393,34 @@ def main(merged_model_names, analysis_result=None, merged_model_save_dir=None, m
     merged_model_names = merged_model_names.split(",")
     excluded_pattern = excluded_pattern.split(",")
 
-    if merge_method=="linear":
+    if merge_method == "linear":
         per = np.array([int(weight) for weight in linear_weights.split(",")])
         per = per / sum(per)
         print(f"merge weights: {per}")
         merged_model = weighted_merge_models(merged_model_names, per, excluded_pattern)
         per = [str(round(p, 2)) for p in per]
-        merged_model.save_pretrained(merged_model_save_dir, use_bfloat16=True, max_shard_size="20GB", safe_serialization=False)
+        merged_model.save_pretrained(
+            merged_model_save_dir,
+            use_bfloat16=True,
+            max_shard_size="20GB",
+            safe_serialization=False,
+        )
         tokenizer.save_pretrained(merged_model_save_dir)
     else:
-        merged_model = merged_method_maps[merge_method](merged_model_names, analysis_result, excluded_pattern, temp=temp, use_sfmax=use_sfmax, merge_type=merge_type)
-        merged_model.save_pretrained(merged_model_save_dir, use_bfloat16=True, max_shard_size="20GB", safe_serialization=False)
+        merged_model = merged_method_maps[merge_method](
+            merged_model_names,
+            analysis_result,
+            excluded_pattern,
+            temp=temp,
+            use_sfmax=use_sfmax,
+            merge_type=merge_type,
+        )
+        merged_model.save_pretrained(
+            merged_model_save_dir,
+            use_bfloat16=True,
+            max_shard_size="20GB",
+            safe_serialization=False,
+        )
         tokenizer.save_pretrained(merged_model_save_dir)
 
 

@@ -1,12 +1,13 @@
-import torch
 import argparse
-from peft import PeftConfig, PeftModel
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-import bitsandbytes as bnb
-import os
 import copy
+import os
+
+import bitsandbytes as bnb
+import torch
 from bitsandbytes.functional import dequantize_4bit
+from peft import PeftConfig, PeftModel
 from peft.utils import _get_submodules
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 
 def dequantize_model(model, dtype=torch.bfloat16, device="cuda"):
@@ -24,9 +25,13 @@ def dequantize_model(model, dtype=torch.bfloat16, device="cuda"):
 
                 quant_state[2] = dtype
 
-                weights = dequantize_4bit(module.weight.data, quant_state=quant_state, quant_type="nf4").to(dtype)
+                weights = dequantize_4bit(
+                    module.weight.data, quant_state=quant_state, quant_type="nf4"
+                ).to(dtype)
 
-                new_module = torch.nn.Linear(module.in_features, module.out_features, bias=None, dtype=dtype)
+                new_module = torch.nn.Linear(
+                    module.in_features, module.out_features, bias=None, dtype=dtype
+                )
                 new_module.weight = torch.nn.Parameter(weights)
                 new_module.to(device=device, dtype=dtype)
 
@@ -37,13 +42,16 @@ def dequantize_model(model, dtype=torch.bfloat16, device="cuda"):
 
         return model
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--lora_model_name_or_path", type=str, required=True)
     parser.add_argument("--base_model_name_or_path", type=str, required=False)
     parser.add_argument("--tokenizer_name_or_path", type=str, required=False)
     parser.add_argument("--output_dir", type=str, required=False)
-    parser.add_argument("--qlora", action="store_true")  # qlora requires special treatment.
+    parser.add_argument(
+        "--qlora", action="store_true"
+    )  # qlora requires special treatment.
     parser.add_argument("--save_tokenizer", action="store_true")
     parser.add_argument("--use_fast_tokenizer", action="store_true")
     return parser.parse_args()
@@ -54,14 +62,16 @@ if __name__ == "__main__":
     peft_config = PeftConfig.from_pretrained(args.lora_model_name_or_path)
     print("Loading the base model...")
     if args.qlora:
-        quantization_config=BitsAndBytesConfig(
+        quantization_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_compute_dtype=torch.bfloat16,
             bnb_4bit_use_double_quant=True,
             bnb_4bit_quant_type="nf4",
         )
         base_model = AutoModelForCausalLM.from_pretrained(
-            args.base_model_name_or_path if args.base_model_name_or_path else peft_config.base_model_name_or_path,
+            args.base_model_name_or_path
+            if args.base_model_name_or_path
+            else peft_config.base_model_name_or_path,
             load_in_4bit=True,
             torch_dtype=torch.bfloat16,
             quantization_config=quantization_config,
@@ -71,7 +81,9 @@ if __name__ == "__main__":
         base_model = dequantize_model(base_model, device="cpu")
     else:
         base_model = AutoModelForCausalLM.from_pretrained(
-            args.base_model_name_or_path if args.base_model_name_or_path else peft_config.base_model_name_or_path,
+            args.base_model_name_or_path
+            if args.base_model_name_or_path
+            else peft_config.base_model_name_or_path,
         )
     print("Loading the lora model...")
     lora_model = PeftModel.from_pretrained(base_model, args.lora_model_name_or_path)
@@ -84,18 +96,28 @@ if __name__ == "__main__":
     # If tokenizer is specified, use it. Otherwise, use the tokenizer in the lora model folder or the base model folder.
     if args.tokenizer_name_or_path:
         print(f"Loading the tokenizer from {args.tokenizer_name_or_path}...")
-        tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name_or_path, use_fast=args.use_fast_tokenizer)
+        tokenizer = AutoTokenizer.from_pretrained(
+            args.tokenizer_name_or_path, use_fast=args.use_fast_tokenizer
+        )
     else:
         try:
             print("Trying to load the tokenizer in the lora model folder...")
-            tokenizer = AutoTokenizer.from_pretrained(args.lora_model_name_or_path, use_fast=args.use_fast_tokenizer)
+            tokenizer = AutoTokenizer.from_pretrained(
+                args.lora_model_name_or_path, use_fast=args.use_fast_tokenizer
+            )
         except:
-            print("No tokenizer found in the lora model folder. Using the tokenizer in the base model folder...")
-            tokenizer = AutoTokenizer.from_pretrained(args.base_model_name_or_path, use_fast=args.use_fast_tokenizer)
+            print(
+                "No tokenizer found in the lora model folder. Using the tokenizer in the base model folder..."
+            )
+            tokenizer = AutoTokenizer.from_pretrained(
+                args.base_model_name_or_path, use_fast=args.use_fast_tokenizer
+            )
 
     embedding_size = merged_model.get_input_embeddings().weight.shape[0]
     if len(tokenizer) > embedding_size:
-        print(f"The vocabulary the tokenizer contains {len(tokenizer)-embedding_size} more tokens than the base model.")
+        print(
+            f"The vocabulary the tokenizer contains {len(tokenizer)-embedding_size} more tokens than the base model."
+        )
         print("Resizing the token embeddings of the merged model...")
         merged_model.resize_token_embeddings(len(tokenizer))
 

@@ -6,8 +6,8 @@ If you have any changes in mind, please contribute back so the community can ben
 """
 
 import dataclasses
-from enum import auto, IntEnum
-from typing import List, Any, Dict, Union, Tuple
+from enum import IntEnum, auto
+from typing import Any, Dict, List, Tuple, Union
 
 
 class SeparatorStyle(IntEnum):
@@ -1094,7 +1094,7 @@ register_conv_template(
         offset=0,
         sep_style=SeparatorStyle.ADD_COLON_TWO,
         sep="\n\n",
-        sep2="<\s>"
+        sep2="<\s>",
     )
 )
 
@@ -1130,7 +1130,6 @@ register_conv_template(
 
 
 if __name__ == "__main__":
-
     print("-- Vicuna template --")
     conv = get_conv_template("vicuna_v1.1")
     conv.append_message(conv.roles[0], "Hello!")

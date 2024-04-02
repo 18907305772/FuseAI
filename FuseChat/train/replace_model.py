@@ -1,48 +1,47 @@
 """Replace the model only and do not align vocab."""
 
-
-from datasets import Features, load_dataset, load_from_disk, DatasetDict
 import argparse
+
 import numpy as np
+from datasets import DatasetDict, Features, load_dataset, load_from_disk
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Replace model.")
     parser.add_argument(
-        "--dataset_dir",
-        type=str,
-        required=True,
-        help="The local dir to load data."
+        "--dataset_dir", type=str, required=True, help="The local dir to load data."
     )
     parser.add_argument(
         "--replace_dataset_dir",
         type=str,
         required=True,
-        help="The local dir to load data."
+        help="The local dir to load data.",
     )
     parser.add_argument(
         "--dataset_save_dir",
         type=str,
         required=True,
-        help="The local dir to save processed data."
+        help="The local dir to save processed data.",
     )
+    parser.add_argument("--cache_dir", type=str, default=None, help="The cache dir.")
     parser.add_argument(
-        "--cache_dir", type=str, default=None, help="The cache dir."
+        "--preprocessing_num_workers",
+        type=int,
+        default=None,
+        help="The number of processes to do data loading.",
     )
+    parser.add_argument("--batch_size", type=int, default=1000, help="The batch size.")
     parser.add_argument(
-        "--preprocessing_num_workers", type=int, default=None, help="The number of processes to do data loading."
-    )
-    parser.add_argument(
-        "--batch_size", type=int, default=1000, help="The batch size."
-    )
-    parser.add_argument(
-        "--replace_model", type=str, default="base", help="The model to be replaced. Could be base or model_0 or model_1."
+        "--replace_model",
+        type=str,
+        default="base",
+        help="The model to be replaced. Could be base or model_0 or model_1.",
     )
     args = parser.parse_args()
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parse_args()
     print("Replace model.")
     print(f"Data processing args: {args}")
@@ -60,8 +59,12 @@ if __name__ == '__main__':
                 input_ids.append(feature_2["input_ids"])
                 attention_mask.append(feature_2["attention_mask"])
                 labels.append(feature_2["labels"])
-            feature_2["per_step_logits"] = feature_2["per_step_logits"][:len(feature_2['input_ids'])]
-            feature_2["per_step_indices"] = feature_2["per_step_indices"][:len(feature_2['input_ids'])]
+            feature_2["per_step_logits"] = feature_2["per_step_logits"][
+                : len(feature_2["input_ids"])
+            ]
+            feature_2["per_step_indices"] = feature_2["per_step_indices"][
+                : len(feature_2["input_ids"])
+            ]
             per_step_logits.append(feature_2["per_step_logits"])
             per_step_indices.append(feature_2["per_step_indices"])
             metric_ce.append(feature_2["metric_ce"])
@@ -95,7 +98,9 @@ if __name__ == '__main__':
             load_from_cache_file=True,
             fn_kwargs={"dataset_2": replace_dataset[k]},
             keep_in_memory=True,
-            remove_columns=["per_step_metric_ce"] if "per_step_metric_ce" in raw_dataset[k][0].keys() else None,
+            remove_columns=["per_step_metric_ce"]
+            if "per_step_metric_ce" in raw_dataset[k][0].keys()
+            else None,
             desc="Replace model.",
         )
 

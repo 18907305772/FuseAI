@@ -14,25 +14,24 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from dataclasses import dataclass, field
 import logging
-import pathlib
 import os
+import pathlib
+from dataclasses import dataclass, field
 
+import bitsandbytes as bnb
+import torch
+import transformers
 from deepspeed import zero
 from deepspeed.runtime.zero.partition_parameters import ZeroParamStatus
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-import transformers
-from transformers import Trainer, BitsAndBytesConfig, deepspeed, set_seed
-import torch
-import bitsandbytes as bnb
-
 from train import (
     DataArguments,
     ModelArguments,
     TrainingArguments,
     make_supervised_data_module,
 )
+from transformers import BitsAndBytesConfig, Trainer, deepspeed, set_seed
 
 
 @dataclass
@@ -87,10 +86,10 @@ def find_all_linear_names(model):
     lora_module_names = set()
     for name, module in model.named_modules():
         if isinstance(module, cls):
-            names = name.split('.')
+            names = name.split(".")
             lora_module_names.add(names[0] if len(names) == 1 else names[-1])
-    if 'lm_head' in lora_module_names:  # needed for 16-bit
-        lora_module_names.remove('lm_head')
+    if "lm_head" in lora_module_names:  # needed for 16-bit
+        lora_module_names.remove("lm_head")
     return list(lora_module_names)
 
 
@@ -98,10 +97,11 @@ def train():
     parser = transformers.HfArgumentParser(
         (ModelArguments, DataArguments, TrainingArguments, LoraArguments)
     )
-    model_args, data_args, training_args, lora_args = parser.parse_args_into_dataclasses()
-    
-    set_seed(training_args.seed)
+    model_args, data_args, training_args, lora_args = (
+        parser.parse_args_into_dataclasses()
+    )
 
+    set_seed(training_args.seed)
 
     device_map = None
     world_size = int(os.environ.get("WORLD_SIZE", 1))
@@ -142,7 +142,9 @@ def train():
     lora_config = LoraConfig(
         r=lora_args.lora_r,
         lora_alpha=lora_args.lora_alpha,
-        target_modules=find_all_linear_names(model) if lora_args.lora_target_modules == "all" else lora_args.lora_target_modules.split(","),
+        target_modules=find_all_linear_names(model)
+        if lora_args.lora_target_modules == "all"
+        else lora_args.lora_target_modules.split(","),
         lora_dropout=lora_args.lora_dropout,
         bias=lora_args.lora_bias,
         task_type="CAUSAL_LM",

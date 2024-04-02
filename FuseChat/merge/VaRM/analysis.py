@@ -1,8 +1,9 @@
 import json
+from collections import defaultdict
+
 import torch
 from fire import Fire
 from transformers import AutoModelForCausalLM
-from collections import defaultdict
 
 
 def main(model1_path, model2_path, save_path, merge_type):
@@ -42,15 +43,23 @@ def main(model1_path, model2_path, save_path, merge_type):
             layer_num = key.split(".layers.")[1].split(".")[0]
             layer_to_params[layer_num] += key_to_params[key]
             if "self_attn" in key:
-                module_to_params[f"model.layers.{layer_num}.self_attn"] += key_to_params[key]
+                module_to_params[f"model.layers.{layer_num}.self_attn"] += (
+                    key_to_params[key]
+                )
             if "mlp" in key:
                 module_to_params[f"model.layers.{layer_num}.mlp"] += key_to_params[key]
             if "input_layernorm" in key:
-                module_to_params[f"model.layers.{layer_num}.input_layernorm"] += key_to_params[key]
+                module_to_params[f"model.layers.{layer_num}.input_layernorm"] += (
+                    key_to_params[key]
+                )
             if "post_attention_layernorm" in key:
-                module_to_params[f"model.layers.{layer_num}.post_attention_layernorm"] += key_to_params[key]
-        
-        if any([name in key for name in ["model.embed_tokens","model.norm", "lm_head"]]):
+                module_to_params[
+                    f"model.layers.{layer_num}.post_attention_layernorm"
+                ] += key_to_params[key]
+
+        if any(
+            [name in key for name in ["model.embed_tokens", "model.norm", "lm_head"]]
+        ):
             module_to_params[key] = key_to_params[key]
 
         total_diff_num += torch.sum((param1 != param2)).item()
@@ -61,23 +70,28 @@ def main(model1_path, model2_path, save_path, merge_type):
 
     # Save results
     with open(save_path, "w") as f:
-        json.dump({
+        json.dump(
+            {
+                "aveage_var_degree": aveage_var_degree,
+                "total_diff_num": total_diff_num,
+                "total_param_num": total_param_num,
+                "diff_rate": total_diff_num / total_param_num * 100,
+                "layer_to_params": dict(layer_to_params),
+                "key_to_params": dict(key_to_params),
+                "module_to_params": dict(module_to_params),
+            },
+            f,
+            indent=4,
+        )
+
+    print(
+        {
             "aveage_var_degree": aveage_var_degree,
             "total_diff_num": total_diff_num,
             "total_param_num": total_param_num,
             "diff_rate": total_diff_num / total_param_num * 100,
-            "layer_to_params": dict(layer_to_params),
-            "key_to_params": dict(key_to_params),
-            "module_to_params": dict(module_to_params)
-        }, f, indent=4)
-
-
-    print({
-        "aveage_var_degree": aveage_var_degree,
-        "total_diff_num": total_diff_num,
-        "total_param_num": total_param_num,
-        "diff_rate": total_diff_num / total_param_num * 100
-    })
+        }
+    )
 
 
 if __name__ == "__main__":

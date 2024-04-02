@@ -1,10 +1,10 @@
 """Tokenize and patch dataset before training (Pure pretraining recipe, not for distilling)."""
 
-from itertools import chain
-from typing import List, Dict
-from datasets import Features, load_dataset, load_from_disk
 import argparse
+from itertools import chain
+from typing import Dict, List
 
+from datasets import Features, load_dataset, load_from_disk
 from src.utils.others import (
     get_logger,
     get_tokenizer,
@@ -14,31 +14,28 @@ logger = get_logger(__name__)
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Tokenize and patch dataset before training.")
+    parser = argparse.ArgumentParser(
+        description="Tokenize and patch dataset before training."
+    )
     parser.add_argument(
         "--model_name_or_path",
         type=str,
         required=True,
-        help="Path to pretrained model or model identifier from huggingface.co/models."
+        help="Path to pretrained model or model identifier from huggingface.co/models.",
     )
     parser.add_argument(
         "--dataset",
         type=str,
         default=None,
-        help="The input data dir. Should contain the training files."
+        help="The input data dir. Should contain the training files.",
     )
     parser.add_argument(
         "--dataset_save_dir",
         type=str,
         default=None,
-        help="The local dir to save processed data."
+        help="The local dir to save processed data.",
     )
-    parser.add_argument(
-        "--cache_dir",
-        type=str,
-        default=None,
-        help="The cache dir."
-    )
+    parser.add_argument("--cache_dir", type=str, default=None, help="The cache dir.")
     parser.add_argument(
         "--block_size",
         type=int,
@@ -53,21 +50,20 @@ def parse_args():
         "--preprocessing_num_workers",
         type=int,
         default=80,
-        help="The number of processes to do data loading"
+        help="The number of processes to do data loading",
     )
     parser.add_argument(
-        "--content_key",
-        type=str,
-        default="text",
-        help="The key to fetch text"
+        "--content_key", type=str, default="text", help="The key to fetch text"
     )
     args = parser.parse_args()
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parse_args()
-    tokenizer, kwargs = get_tokenizer(args.model_name_or_path, args.cache_dir, args.block_size)
+    tokenizer, kwargs = get_tokenizer(
+        args.model_name_or_path, args.cache_dir, args.block_size
+    )
     logger.info(f"Data processing args: {args}")
     dataset_kwargs = dict(
         data_dir=args.dataset,
@@ -82,7 +78,9 @@ if __name__ == '__main__':
         text = [x + tokenizer.eos_token for x in text]  # add eos in the end
         tknz_text = tokenizer(text, add_special_tokens=False)
 
-        concatenated_examples = {k: list(chain(*tknz_text[k])) for k in tknz_text.keys()}
+        concatenated_examples = {
+            k: list(chain(*tknz_text[k])) for k in tknz_text.keys()
+        }
         total_length = len(concatenated_examples[list(tknz_text.keys())[0]])
         # We drop the small remainder, and if the total_length < block_size  we exclude this batch and return an empty dict.
         # We could add padding if the model supported it instead of this drop, you can customize this part to your needs.
@@ -90,7 +88,7 @@ if __name__ == '__main__':
         # total_length = (total_length // block_size) * block_size
         # Split by chunks of max_len.
         result = {
-            k: [t[i: i + block_size] for i in range(0, total_length, block_size)]
+            k: [t[i : i + block_size] for i in range(0, total_length, block_size)]
             for k, t in concatenated_examples.items()
         }
         result["labels"] = result["input_ids"].copy()
