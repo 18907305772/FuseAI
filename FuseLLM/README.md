@@ -348,7 +348,8 @@ deepspeed --master_port=20001 ./src/train.py \
 ## Evaluation
 
 The evaluation code we used in our evaluation are list as follows:
-Note: Please do NOT use vLLM for all the evaluation.
+
+(Note: Please do NOT use vLLM for all the evaluation.)
 
 - [Big-Bench Hard](https://github.com/allenai/open-instruct/tree/main/eval)
 - [CommonSense: ARC-easy, ARC-challenge, BoolQ, HellaSwag, OpenBookQA](https://github.com/EleutherAI/lm-evaluation-harness/releases/tag/v0.3.0)
