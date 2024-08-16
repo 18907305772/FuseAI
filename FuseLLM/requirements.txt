@@ -1,0 +1,8 @@
+torch>=1.13.1+cu117
+transformers>=4.31.0
+accelerate>=0.20.3
+deepspeed>=0.9.5
+peft>=0.5.0
+datasets>=2.13.1
+flash_attn==0.2.8
+editdistance==0.6.2
