@@ -1,0 +1,24 @@
+models:
+  # Pivot model
+  - model: openchat/openchat_3.5
+  # Target models
+  - model: FuseAI/OpenChat-3.5-7B-Starling-v2.0
+    parameters:
+      weight: 0.3 
+  - model: FuseAI/OpenChat-3.5-7B-SOLAR-v2.0
+    parameters:
+      weight: 0.3 
+  - model: FuseAI/OpenChat-3.5-7B-InternLM-v2.0
+    parameters:
+      weight: 0.3 
+  - model: FuseAI/OpenChat-3.5-7B-Mixtral-v2.0
+    parameters:
+      weight: 0.3 
+  - model: FuseAI/OpenChat-3.5-7B-Qwen-v2.0
+    parameters:
+      weight: 0.3 
+merge_method: task_arithmetic
+base_model: openchat/openchat_3.5
+parameters:
+  normalize: false
+dtype: bfloat16

@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mergekit"
+description = "Tools for merging pre-trained large language models"
+readme = "README.md"
+license = { text = "LGPL-3.0-or-later" }
+version = "0.0.4.3"
+authors = [{ name = "Charles Goddard", email = "chargoddard@gmail.com" }]
+dependencies = [
+    "torch>=2.0.0",
+    "tqdm==4.66.2",
+    "click==8.1.7",
+    "safetensors~=0.4.2",
+    "accelerate~=0.27.2",
+    "pydantic==2.6.2",
+    "immutables==0.20",
+    "transformers",
+    "huggingface_hub",
+    "peft",
+    "typing-extensions",
+    "sentencepiece",
+    "protobuf",
+]
+
+[project.optional-dependencies]
+dev = ["black~=24.2.0", "isort~=5.13.2", "pre-commit~=3.6.2"]
+test = ["pytest~=8.0.1"]
+evolve = ["ray", "cma", "lm_eval", "wandb"]
+vllm = ["vllm==0.3.2", "lm_eval[vllm]"]
+
+[project.urls]
+repository = "https://github.com/cg123/mergekit"
+
+
+[project.scripts]
+mergekit-yaml = "mergekit.scripts.run_yaml:main"
+mergekit-mega = "mergekit.scripts.megamerge:main"
+mergekit-legacy = "mergekit.scripts.legacy:main"
+mergekit-layershuffle = "mergekit.scripts.layershuffle:main"
+bakllama = "mergekit.scripts.bakllama:main"
+mergekit-moe = "mergekit.scripts.moe:main"
+mergekit-tokensurgeon = "mergekit.scripts.tokensurgeon:main"
+mergekit-extract-lora = "mergekit.scripts.extract_lora:main"
+mergekit-evolve = "mergekit.scripts.evolve:main"
+
+[tool.setuptools]
+packages = [
+    "mergekit",
+    "mergekit.io",
+    "mergekit.merge_methods",
+    "mergekit.moe",
+    "mergekit.scripts",
+    "mergekit.evo",
+    "mergekit._data",
+    "mergekit._data.architectures",
+]
+include-package-data = true
+package-data = { "mergekit._data.architectures" = ["*.json"] }
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+filterwarnings = [
+    "ignore::pydantic.PydanticDeprecatedSince20:huggingface_hub.*:",
+]
+testpaths = ["tests"]
