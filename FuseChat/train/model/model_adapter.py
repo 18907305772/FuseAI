@@ -26,14 +26,7 @@ from transformers import (
     T5Tokenizer,
 )
 
-
 from conversation import Conversation, get_conv_template
-from model.compression import load_compress_model
-from model.llama_condense_monkey_patch import replace_llama_with_condense
-from model.monkey_patch_non_inplace import (
-    replace_llama_attn_with_non_inplace_operations,
-)
-
 
 def get_gpu_memory(max_gpus=None):
     """Get available memory for each GPU."""
@@ -101,15 +94,6 @@ class BaseModelAdapter:
                 model_path, low_cpu_mem_usage=True, **from_pretrained_kwargs
             )
         return model, tokenizer
-
-    def load_compress_model(self, model_path, device, torch_dtype, revision="main"):
-        return load_compress_model(
-            model_path,
-            device,
-            torch_dtype,
-            use_fast=self.use_fast_tokenizer,
-            revision=revision,
-        )
 
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("one_shot")
@@ -295,20 +279,16 @@ class VicunaAdapter(BaseModelAdapter):
             )
 
 
-class OpenChatAdapter(BaseModelAdapter):
-    """The model adapter for OpenChat"""
+class OpenChat35Adapter(BaseModelAdapter):
+    """The model adapter for OpenChat 3.5 (e.g. openchat/openchat_3.5)"""
 
     def match(self, model_path: str):
-        return "openchat" in model_path.lower()
-
-    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
-        model, tokenizer = super().load_model(model_path, from_pretrained_kwargs)
-        model.config.eos_token_id = tokenizer.eos_token_id
-        model.config.pad_token_id = tokenizer.pad_token_id
-        return model, tokenizer
+        if "openchat_3.5" in model_path.lower() or "fusechat" in model_path.lower() or "starling" in model_path.lower():
+            return True
+        return False
 
     def get_default_conv_template(self, model_path: str) -> Conversation:
-        return get_conv_template("openchat")
+        return get_conv_template("openchat_3.5")
 
 
 class PretrainAdapter(BaseModelAdapter):
@@ -358,33 +338,6 @@ class AiroborosAdapter(BaseModelAdapter):
         return model, tokenizer
 
 
-class LongChatAdapter(BaseModelAdapter):
-    "Model adapter for LongChat models (e.g., lmsys/longchat-7b-16k)."
-
-    use_fast_tokenizer = False
-
-    def match(self, model_path: str):
-        return "longchat" in model_path.lower()
-
-    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
-        revision = from_pretrained_kwargs.get("revision", "main")
-
-        # Apply monkey patch, TODO(Dacheng): Add flash attention support
-        config = AutoConfig.from_pretrained(model_path, revision=revision)
-        replace_llama_with_condense(config.rope_scaling["factor"])
-
-        tokenizer = AutoTokenizer.from_pretrained(
-            model_path, use_fast=self.use_fast_tokenizer, revision=revision
-        )
-        model = AutoModelForCausalLM.from_pretrained(
-            model_path,
-            low_cpu_mem_usage=True,
-            **from_pretrained_kwargs,
-        )
-        return model, tokenizer
-
-    def get_default_conv_template(self, model_path: str) -> Conversation:
-        return get_conv_template("vicuna_v1.1")
 
 
 class GoogleT5Adapter(BaseModelAdapter):
@@ -958,26 +911,10 @@ class InternLMChatAdapter(BaseModelAdapter):
     """The model adapter for internlm/internlm-chat-7b"""
 
     def match(self, model_path: str):
-        return "internlm" in model_path.lower()
-
-    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
-        revision = from_pretrained_kwargs.get("revision", "main")
-        model = AutoModelForCausalLM.from_pretrained(
-            model_path,
-            low_cpu_mem_usage=True,
-            trust_remote_code=True,
-            **from_pretrained_kwargs,
-        )
-        model = model.eval()
-        if "8k" in model_path.lower():
-            model.config.max_sequence_length = 8192
-        tokenizer = AutoTokenizer.from_pretrained(
-            model_path, trust_remote_code=True, revision=revision
-        )
-        return model, tokenizer
+        return "internlm2" in model_path.lower()
 
     def get_default_conv_template(self, model_path: str) -> Conversation:
-        return get_conv_template("internlm-chat")
+        return get_conv_template("internlm2")
 
 
 class StarChatAdapter(BaseModelAdapter):
@@ -1111,7 +1048,7 @@ class QwenChatAdapter(BaseModelAdapter):
     """
 
     def match(self, model_path: str):
-        return "qwen" in model_path.lower()
+        return "qwen-chat" in model_path.lower()
 
     def load_model(self, model_path: str, from_pretrained_kwargs: dict):
         from transformers.generation import GenerationConfig
@@ -1151,6 +1088,86 @@ class QwenChatAdapter(BaseModelAdapter):
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("qwen-7b-chat")
 
+class QwenAdapter(BaseModelAdapter):
+    def match(self, model_path: str):
+        return "qwen" in model_path.lower()
+
+    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
+        from transformers.generation import GenerationConfig
+
+        revision = from_pretrained_kwargs.get("revision", "main")
+        config = AutoConfig.from_pretrained(
+            model_path,
+            trust_remote_code=True,
+        )
+        # NOTE: if you use the old version of model file, please remove the comments below
+        # config.use_flash_attn = False
+        config.fp16 = True
+        generation_config = GenerationConfig.from_pretrained(
+            model_path, trust_remote_code=True
+        )
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            config=config,
+            low_cpu_mem_usage=True,
+            trust_remote_code=True,
+            **from_pretrained_kwargs,
+        ).eval()
+        if hasattr(model.config, "use_dynamic_ntk") and model.config.use_dynamic_ntk:
+            model.config.max_sequence_length = 16384
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_path, trust_remote_code=True, revision=revision
+        )
+        tokenizer.eos_token_id = config.eos_token_id
+        tokenizer.bos_token_id = config.bos_token_id
+        tokenizer.pad_token_id = generation_config.pad_token_id
+        model.config.eos_token_id = tokenizer.eos_token_id
+        model.config.bos_token_id = tokenizer.bos_token_id
+        model.config.pad_token_id = tokenizer.pad_token_id
+
+        return model, tokenizer
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("qwen")
+
+class YiAdapter(BaseModelAdapter):
+    """The model adapter for Yi/Yi-1.5 models"""
+
+    def match(self, model_path: str):
+        return "yi-" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("yi-")
+
+class Llama3Adapter(BaseModelAdapter):
+    """The model adapter for Llama-3 (e.g., meta-llama/Meta-Llama-3-8B-Instruct)"""
+
+    def match(self, model_path: str):
+        return "llama-3" in model_path.lower()
+
+    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
+        model, tokenizer = super().load_model(model_path, from_pretrained_kwargs)
+        model.config.eos_token_id = tokenizer.eos_token_id
+        model.config.pad_token_id = tokenizer.pad_token_id
+        return model, tokenizer
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("llama-3")
+
+class OpenchatLlama3Adapter(BaseModelAdapter):
+    """The model adapter for Llama-3 (e.g., meta-llama/Meta-Llama-3-8B-Instruct)"""
+
+    def match(self, model_path: str):
+        return "openchat-3.6" in model_path.lower()
+
+    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
+        model, tokenizer = super().load_model(model_path, from_pretrained_kwargs)
+        model.config.eos_token_id = tokenizer.eos_token_id
+        model.config.pad_token_id = tokenizer.pad_token_id
+        return model, tokenizer
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("openchat-3.6-llama3")
 
 class BGEAdapter(BaseModelAdapter):
     """The model adapter for BGE (e.g., BAAI/bge-large-en-v1.5)"""
@@ -1346,6 +1363,15 @@ class PhindCodeLlamaAdapter(CodeLlamaAdapter):
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("phind")
 
+class Phi3Adapter(CodeLlamaAdapter):
+    """The model adapter for Phind-CodeLlama (e.g., Phind/Phind-CodeLlama-34B-v2)"""
+
+    def match(self, model_path: str):
+        return "phi-3" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("phi-3")
+
 
 class Llama2ChangAdapter(Llama2Adapter):
     """The model adapter for Llama2-ko-chang (e.g., lcw99/llama2-ko-chang-instruct-chat)"""
@@ -1378,15 +1404,22 @@ class XwinLMAdapter(BaseModelAdapter):
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("vicuna_v1.1")
 
+class GemmaAdapter(BaseModelAdapter):
+    """The model adapter for google/gemma"""
+
+    def match(self, model_path: str):
+        return "gemma" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("gemma")
 
 # Note: the registration order matters.
 # The one registered earlier has a higher matching priority.
 register_model_adapter(PeftModelAdapter)
 register_model_adapter(VicunaAdapter)
-register_model_adapter(OpenChatAdapter)
+register_model_adapter(OpenChat35Adapter)
 register_model_adapter(PretrainAdapter)
 register_model_adapter(AiroborosAdapter)
-register_model_adapter(LongChatAdapter)
 register_model_adapter(GoogleT5Adapter)
 register_model_adapter(KoalaAdapter)
 register_model_adapter(AlpacaAdapter)
@@ -1429,6 +1462,8 @@ register_model_adapter(CuteGPTAdapter)
 register_model_adapter(OpenOrcaAdapter)
 register_model_adapter(WizardCoderAdapter)
 register_model_adapter(QwenChatAdapter)
+register_model_adapter(Llama3Adapter)
+register_model_adapter(OpenchatLlama3Adapter)
 register_model_adapter(AquilaChatAdapter)
 register_model_adapter(BGEAdapter)
 register_model_adapter(E5Adapter)
@@ -1441,6 +1476,10 @@ register_model_adapter(CodeLlamaAdapter)
 register_model_adapter(Llama2ChangAdapter)
 register_model_adapter(ZephyrAdapter)
 register_model_adapter(XwinLMAdapter)
+register_model_adapter(Phi3Adapter)
+register_model_adapter(QwenAdapter)
+register_model_adapter(YiAdapter)
+register_model_adapter(GemmaAdapter)
 
 # After all adapters, try the default base adapter.
 register_model_adapter(BaseModelAdapter)

@@ -26,23 +26,13 @@ _**Fanqi Wan<sup>†</sup>, Xinting Huang<sup>‡</sup>, Deng Cai<sup>‡</sup>,
 _<sup>†</sup> Sun Yat-sen University,
 <sup>‡</sup> Tencent AI Lab_
 
-| Model                                                    | BBH   | ARC-easy | ARC-challenge | BoolQ | HellaSwag | OpenBookQA |
-|----------------------------------------------------------|-------|----------|---------------|-------|-----------|------------|
-| OpenLLaMA-7B                                             | 33.87 | 69.70    | 41.38         | 72.29 | 74.53     | 41.00      |
-| MPT-7B                                                   | 33.38 | 70.12    | 42.15         | 74.74 | 76.25     | 42.40      |
-| Llama-2-7B                                               | 39.70 | 74.58    | 46.33         | 77.71 | 76.00     | 44.20      |
-| Llama-2-CLM-7B                                           | 40.44 | 74.54    | 46.50         | 76.88 | 76.57     | 44.80      |
-| 🤗 [FuseLLM-7B](https://huggingface.co/Wanfq/FuseLLM-7B) | 41.75 | 75.04    | 47.44         | 78.13 | 76.78     | 45.40      |
+<p align="center">
+    <img src="./assets/fig0.png" width="95%"> <br>
+</p>
 
-
-| Model                                                    | MultiPL-E | TrivialQA | DROP  | LAMBADA | IWSLT2017 | SciBench | 
-|----------------------------------------------------------|-----------|-----------|-------|---------|-----------|----------|
-| OpenLLaMA-7B                                             | 18.11     | 39.96     | 22.31 | 70.31   | 5.51      | 0.68     |
-| MPT-7B                                                   | 17.26     | 28.89     | 23.54 | 70.08   | 5.49      | 0.88     |
-| Llama-2-7B                                               | 14.63     | 52.46     | 27.25 | 73.28   | 6.48      | 0.14     |
-| Llama-2-CLM-7B                                           | 14.83     | 53.14     | 28.51 | 73.45   | 6.91      | 0.94     |
-| 🤗 [FuseLLM-7B](https://huggingface.co/Wanfq/FuseLLM-7B) | 15.56     | 54.49     | 28.97 | 73.72   | 6.75      | 1.65     |
-
+<p align="center">
+    <img src="./assets/fig1.png" width="95%"> <br>
+</p>
 
 </div>
 

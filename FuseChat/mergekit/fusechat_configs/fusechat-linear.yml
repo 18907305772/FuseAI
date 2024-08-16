@@ -1,0 +1,18 @@
+models:
+  - model: FuseAI/OpenChat-3.5-7B-Starling-v2.0
+    parameters:
+      weight: 0.2 
+  - model: FuseAI/OpenChat-3.5-7B-SOLAR-v2.0
+    parameters:
+      weight: 0.2 
+  - model: FuseAI/OpenChat-3.5-7B-InternLM-v2.0
+    parameters:
+      weight: 0.2 
+  - model: FuseAI/OpenChat-3.5-7B-Mixtral-v2.0
+    parameters:
+      weight: 0.2 
+  - model: FuseAI/OpenChat-3.5-7B-Qwen-v2.0
+    parameters:
+      weight: 0.2 
+merge_method: linear
+dtype: float16
