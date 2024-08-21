@@ -16,14 +16,6 @@ from typing import List, Dict
 from tqdm import tqdm
 import os
 
-SPECIAL_TOKEN_LLAMA3_TO_MISTRAL = {
-    "âĢĻ":"’",
-    'âĢĶ':'—',
-    'âĢĿ':'”',
-    'č':'\r',
-    'ĉ':'<0x09>',
-    "Ċ":"<0x0A>"
-}
 
 def dict_to_list(examples):
     return [{key: examples[key][i] for key in examples} for i in range(len(examples[next(iter(examples))]))]
@@ -117,10 +109,6 @@ def find_best_mapping(args):
         min_idx = np.argmin(edit_distances)
         return base_id, blending_token_ids[min_idx]
 
-def replace_special_tokens(token_list):
-    for special_token in SPECIAL_TOKEN_LLAMA3_TO_MISTRAL.keys():
-        token_list = [token.replace(special_token,SPECIAL_TOKEN_LLAMA3_TO_MISTRAL[special_token]) if special_token in token else token for token in token_list]
-    return token_list
 
 def token_align_mapping(base_model_tokenizer: tokenization_utils_base.PreTrainedTokenizerBase,
                         blending_model_tokenizer: tokenization_utils_base.PreTrainedTokenizerBase,
@@ -151,9 +139,6 @@ def token_align_mapping(base_model_tokenizer: tokenization_utils_base.PreTrained
             """calculate editdistance between two tokens, a is from blending model, b is from base model"""
             aa = a.replace(base_model_special_token, '')
             bb = b.replace(blending_model_special_token, '')
-            for special_token in SPECIAL_TOKEN_LLAMA3_TO_MISTRAL:
-                aa = aa.replace(special_token, SPECIAL_TOKEN_LLAMA3_TO_MISTRAL[special_token]) if special_token in aa else aa
-                bb = bb.replace(special_token,SPECIAL_TOKEN_LLAMA3_TO_MISTRAL[special_token]) if special_token in bb else bb
 
             if len(aa) == 0 or len(bb) == 0:
                 aa = a.replace(base_model_special_token, blending_model_special_token)
@@ -210,10 +195,8 @@ def transform_step_token(base_model_tokenizer, base_model_input_ids, blending_mo
     token alignment: use dtw to perform token alignment for two sequence.
     """
 
-    base_model_tokens = base_model_tokenizer.convert_ids_to_tokens(base_model_input_ids)
-    base_model_tokens = replace_special_tokens(base_model_tokens)
-    blending_model_tokens = blending_model_tokenizer.convert_ids_to_tokens(blending_model_input_ids)
-    blending_model_tokens = replace_special_tokens(blending_model_tokens)
+    base_model_tokens = [base_model_tokenizer.decode([input_id]) for input_id in base_model_input_ids]
+    blending_model_tokens = [blending_model_tokenizer.decode([input_id]) for input_id in blending_model_input_ids]
 
     base_model_special_token = TOKENIZER_TO_SPECIAL_TOKEN[base_model_tokenizer.__class__]
     blending_model_special_token = TOKENIZER_TO_SPECIAL_TOKEN[blending_model_tokenizer.__class__]
