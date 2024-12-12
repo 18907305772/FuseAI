@@ -12,6 +12,8 @@ Knowledge Fusion of Large Language Models
 
 <h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 FuseLLM Paper @ICLR2024 </a> |
 <a href="https://arxiv.org/abs/2408.07990"> 📑 FuseChat Tech Report </a> |
+<a href="https://arxiv.org/abs/2412.03187"> 📑 WRPO Tech Report </a> |
+<a href="https://slit-ai.github.io/FuseChat-3.0/"> 🌐 Blog Post </a> |
 <a href="https://huggingface.co/FuseAI"> 🤗 HuggingFace Repo </a> |
 <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 GitHub Repo </a> |
 </h4>
@@ -24,6 +26,14 @@ Knowledge Fusion of Large Language Models
 
 
 ## News
+
+### FuseChat-3.0 [SOTA 8B LLM on AlpacaEval-2 & Arena-Hard]
+
+- **Dec 12, 2024:** 🔥 We release [FuseChat-3.0](https://huggingface.co/collections/FuseAI/fusechat-30-6752d18dec430bad7a236a75) and [Blog Post](https://slit-ai.github.io/FuseChat-3.0/). FuseChat-3.0 contains a series of models crafted to enhance performance by integrating the strengths of multiple source LLMs into more compact target LLMs. To achieve this fusion, we utilized four powerful source LLMs: [Gemma-2-27b-It](https://huggingface.co/google/gemma-2-27b-it), [Mistral-Large-Instruct-2407](https://huggingface.co/mistralai/Mistral-Large-Instruct-2407), [Qwen-2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2-72B-Instruct), and [Llama-3.1-70B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct). For the target LLMs, we employed three widely-used smaller models—[Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct), [Gemma-2-9B-It](https://huggingface.co/google/gemma-2-9b-it), and [Qwen-2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct)—along with two even more compact models—[Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) and [Llama-3.2-1B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct). . The implicit model fusion process involves a two-stage training pipeline comprising Supervised Fine-Tuning (SFT) to mitigate distribution discrepancies between target and source LLMs, and Direct Preference Optimization (DPO) for learning preferences from multiple source LLMs. The resulting FuseChat-3.0 models demonstrated substantial improvements in tasks related to general conversation, instruction following, mathematics, and coding. Notably, when Llama-3.1-8B-Instruct served as the target LLM, our fusion approach achieved an average improvement of **6.8** points across 14 benchmarks. Moreover, it showed significant improvements of **37.1** and **30.1** points on instruction-following test sets AlpacaEval-2 and Arena-Hard respectively.  
+
+<p align="center">
+    <img src="FuseChat-3.0.png" width="60%"> <br>
+</p>
 
 ### FuseChat [SOTA 7B LLM on MT-Bench]
 
@@ -77,6 +87,16 @@ Please cite the following paper if you reference our model, code, data, or paper
   title={FuseChat: Knowledge Fusion of Chat Models},
   author={Fanqi Wan and Longguang Zhong and Ziyi Yang and Ruijun Chen and Xiaojun Quan},
   journal={arXiv preprint arXiv:2408.07990},
+  year={2024}
+}
+```
+
+Please cite the following paper if you reference our model, code, data, or paper related to WRPO.
+```
+@article{yang2024wrpo,
+  title={Weighted-Reward Preference Optimization for Implicit Model Fusion},
+  author={Ziyi Yang and Fanqi Wan and Longguang Zhong and Tianyuan Shi and Xiaojun Quan},
+  journal={arXiv preprint arXiv:2412.03187},
   year={2024}
 }
 ```
