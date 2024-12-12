@@ -14,7 +14,6 @@ Knowledge Fusion of Large Language Models
 <a href="https://arxiv.org/abs/2408.07990"> 📑 FuseChat Tech Report </a> |
 <a href="https://arxiv.org/abs/2412.03187"> 📑 WRPO Tech Report </a> |
 <a href="https://slit-ai.github.io/FuseChat-3.0/"> 🌐 Blog Post </a> |
-    
 <a href="https://huggingface.co/FuseAI"> 🤗 HuggingFace Repo </a> |
 <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 GitHub Repo </a> |
 </h4>
