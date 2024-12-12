@@ -1,0 +1,19 @@
+"Qwen2.5-7B-Instruct":
+  completions_kwargs:
+    batch_size: 900
+    do_sample: false
+    max_tokens: 4096
+    max_new_tokens: 4096
+    model_kwargs:
+      model_root_path: "path_of_model_root"
+      tp: 1
+      gpu_memory_utilization: 0.95
+      tokenizer_mode: auto
+      trust_remote_code: False
+    model_name: Qwen2.5-7B-Instruct
+    stop_token_ids: ["151645","151643"]
+    stop: ["<|endoftext|>","<|im_end|>"]
+    temperature: 0
+    top_p: 1.0
+  fn_completions: vllm_local_completions
+  prompt_template: configs/qwen_25.txt

@@ -1,0 +1,26 @@
+"Meta-Llama-3.1-8B-Instruct":
+  completions_kwargs:
+    batch_size: 900
+    do_sample: true
+    max_tokens: 4096
+    max_new_tokens: 4096
+    model_kwargs:
+      model_root_path: "path_of_model_root"
+      tp: 1
+      tokenizer_mode: auto
+      trust_remote_code: False
+    model_name: Meta-Llama-3.1-8B-Instruct
+    stop:
+    - <|end_of_text|>
+    - <|eot_id|>
+    - <|start_header_id|>
+    - <|end_header_id|>
+    stop_token_ids:
+    - '128001'
+    - '128009'
+    - '128006'
+    - '128007'
+    temperature: 0
+    top_p: 1.0
+  fn_completions: vllm_local_completions
+  prompt_template: configs/llama3.txt

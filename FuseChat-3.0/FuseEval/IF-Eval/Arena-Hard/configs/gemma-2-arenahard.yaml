@@ -1,0 +1,18 @@
+"gemma-2-9b-it":
+  prompt_template: "configs/gemma2.txt"
+  fn_completions: "vllm_local_completions"
+  completions_kwargs:
+    sleep_time: 0
+    model_name: "gemma-2-9b-it"
+    batch_size: 900
+    model_kwargs:
+      model_root_path: "path_of_model_root"
+      tp: 2
+      tokenizer_mode: auto
+      trust_remote_code: True
+    max_tokens: 4096
+    max_new_tokens: 4096
+    temperature: 0
+    top_p: 1.0
+    stop_token_ids: ["1","107"]
+    stop: ["<eos>","<end_of_turn>"]

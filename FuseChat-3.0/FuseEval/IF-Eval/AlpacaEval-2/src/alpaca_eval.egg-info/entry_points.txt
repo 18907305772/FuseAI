@@ -1,0 +1,2 @@
+[console_scripts]
+alpaca_eval = alpaca_eval.main:main
