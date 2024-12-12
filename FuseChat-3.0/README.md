@@ -7,15 +7,25 @@ FuseChat-3.0: Preference Optimization for Implicit Model Fusion
 -----------------------------
 <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Version"> 
 <img src="https://img.shields.io/badge/License-Apache_2.0-green.svg" alt="License">
-<img src="https://img.shields.io/github/stars/SLIT-AI/FuseChat-3.0?color=yellow" alt="Stars">
-<img src="https://img.shields.io/github/issues/SLIT-AI/FuseChat-3.0?color=red" alt="Issues">
+<img src="https://img.shields.io/github/stars/fanqiwan/FuseLLM?color=yellow" alt="Stars">
+<img src="https://img.shields.io/github/issues/fanqiwan/FuseLLM?color=red" alt="Issues">
 
 <h4> |<a href="https://arxiv.org/abs/2412.03187"> 📑 Paper </a> |
-<a href="https://github.com/SLIT-AI/FuseChat-3.0"> 🐱 GitHub Repo </a> |
-<a href="https://huggingface.co/FuseAI"> 🤗 Hugging Face </a> |
+<a href="https://huggingface.co/FuseAI"> 🤗 HuggingFace Repo</a> |
+<a href="https://github.com/fanqiwan/FuseLLM"> 🐱 GitHub Repo </a> |
 <a href="https://slit-ai.github.io/FuseChat-3.0/"> 🌐 Website </a> |
 </h4>
 
+<!-- **Authors:** -->
+
+_Ziyi Yang*, Fanqi Wan*, Longguang Zhong*, Canbin Huang, Guosheng Liang, Xiaojun Quan†_
+
+
+<!-- **Affiliations:** -->
+
+_Sun Yat-sen University_
+
+_*Main Contributors †Corresponding Author_
 
 </div>
 
