@@ -551,7 +551,7 @@ The evaluation results of five series fused models are as follows, showing that 
   <tr>
     <td>Arena-Hard (WR %)</td>
     <td>40.8</td>
-    <td>58.3</td>
+    <td>44.5</td>
     <td><strong>63.4</strong></td>
   </tr>
 
@@ -642,7 +642,7 @@ The evaluation results of five series fused models are as follows, showing that 
   <tr>
     <td>Average</td>
     <td>43.9</td>
-    <td>45.7</td>
+    <td>44.7</td>
     <td><strong>48.2</strong></td>
   </tr>
 </table>
