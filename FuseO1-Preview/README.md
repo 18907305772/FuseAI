@@ -153,9 +153,9 @@ The evaluation results are shown in the table below:
 | [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) |43.33 | 87.80 | 95.45 | 49.49 | 95.73 | 63.49 | 85.19 | 51.86 |
 | [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 43.33 | 86.80 | 95.15 | 50.51 | 95.56 | 65.80 | 82.71 | 51.66 |
 | [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | 20.00 | 81.60 | 93.63 | 46.46 | 95.22 | 56.27 | 79.63 | 48.53 |
-| [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) | 46.67 | 87.20 | - | - | - | - | - | - |
-| [FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) | 56.67 | - | - | - | - | - | - | - |
-| [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) | 60.00 | - | - | - | - | - | - | - |
+| [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) | 46.67 | 87.20 | - | 55.05 | - | - | - | - |
+| [FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) | 56.67 | 85.60 | - | 62.12 | - | - | - | - |
+| [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) | 60.00 | 90.00 | - | 62.12 | - | - | - | - |
 
 ## Future Works
 
