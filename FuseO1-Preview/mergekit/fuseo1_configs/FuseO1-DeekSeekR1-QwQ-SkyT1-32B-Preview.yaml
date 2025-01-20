@@ -1,0 +1,12 @@
+models:
+  # Pivot model
+  - model: Qwen/Qwen2.5-32B
+  # Target models
+  - model: Qwen/QwQ-32B-Preview
+  - model: deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
+  - model: NovaSky-AI/Sky-T1-32B-Preview
+merge_method: sce
+base_model: Qwen/Qwen2.5-32B
+parameters:
+  select_topk: 1.0
+dtype: bfloat16

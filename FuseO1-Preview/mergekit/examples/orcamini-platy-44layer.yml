@@ -1,0 +1,9 @@
+slices:
+  - sources:
+    - model: psmathur/orca_mini_v3_13b
+      layer_range: [0, 24]
+  - sources:
+    - model: garage-bAInd/Platypus2-13B
+      layer_range: [20, 40]
+merge_method: passthrough
+dtype: float16
