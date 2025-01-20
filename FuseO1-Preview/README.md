@@ -31,8 +31,8 @@ To achieve this, we conduct two types of model merging:
 - **Long-Long Reasoning Merging**: This approach involves model fusion across LLMs that utilize long-CoT reasoning, with the goal of enhancing long-CoT reasoning capabilities. The resulted [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) achieves an accuracy of **60.00 on AIME24**,  demonstrating significant performance improvements compared to the o1-preview model (44.60) and approaching the performance of the o1-mini model (63.60).
 - **Long-Short Reasoning Merging**: This approach involves model fusion between long-CoT and short-CoT LLMs, aiming to improve reasoning capabilities in both long and short reasoning processes. The resulted [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) is capable of utilizing both long and short reasoning processes and demonstrates relatively strong performance in long reasoning tasks.
 
-| Model Name | Model Type | Source Models | Model Link |
-| ----- | ---- | ---- | ---- |
+| Model | Merge Type | Source Models | HF Link |
+|:----- | ---- | ---- | ---- |
 | FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview), [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) |
 | FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview)  | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) |
 | FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview | Long-Short Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) |
@@ -145,7 +145,7 @@ The [evaluation code](https://github.com/fanqiwan/FuseAI/tree/main/FuseO1-Previe
 
 The evaluation results are shown in the table below:
 
-|  | AIME24 | MATH500 | GSM8K | GPQA-Diamond | ARC-Challenge | MMLU-Pro | MMLU | LiveCodeBench |
+| Models  | AIME24 | MATH500 | GSM8K | GPQA-Diamond | ARC-Challenge | MMLU-Pro | MMLU | LiveCodeBench |
 |:-| ------ | ------- | ----- | ------------ | ------------- | -------- | ---- | ------------- |
 | o1-preview | 44.60 | 85.50 | - | 73.30 | - | - | 90.80 | - |
 | o1-mini | 63.60 | 90.00 | - | 60.00 | - | 80.30 | 85.20| 53.80 |
