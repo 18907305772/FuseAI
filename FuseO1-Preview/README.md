@@ -12,11 +12,6 @@ FuseO1-Preview: System-II Reasoning Fusion of LLMs
 <a href="https://huggingface.co/blog/Wanfq/fuseo1-preview"> 🌐 Blog </a> |
 </h4>
 
-<p align="center">
-    <img src="./assets/fuseo1-preview.jpg" width="100%"> <br>
-</p>
-
-
 <!-- **Authors:** -->
 
 _Fanqi Wan, Longguang Zhong, Ziyi Yang_
@@ -27,6 +22,11 @@ _Fanqi Wan, Longguang Zhong, Ziyi Yang_
 _Sun Yat-sen University_
 
 </div>
+
+<p align="center">
+    <img src="./assets/fuseo1-preview.jpg" width="100%"> <br>
+</p>
+
 
 ## Overview
 
