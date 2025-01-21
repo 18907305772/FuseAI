@@ -1,0 +1,6 @@
+vllm==0.6.2
+pyext
+word2number
+scipy
+datasets
+latex2sympy2

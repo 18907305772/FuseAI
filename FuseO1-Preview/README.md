@@ -9,7 +9,13 @@ FuseO1-Preview: System-II Reasoning Fusion of LLMs
 <h4> |<a href="https://arxiv.org/abs/2408.07990"> 📑 Paper </a> |
 <a href="https://github.com/fanqiwan/FuseAI"> 🐱 GitHub Repo </a> |
 <a href="https://huggingface.co/FuseAI"> 🤗 Hugging Face </a> |
+<a href="https://huggingface.co/blog/Wanfq/fuseo1-preview"> 🌐 Blog </a> |
 </h4>
+
+<p align="center">
+    <img src="./assets/fuseo1-preview.jpg" width="100%"> <br>
+</p>
+
 
 <!-- **Authors:** -->
 
@@ -52,7 +58,7 @@ To reproduce the merged [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https:/
 cd FuseAI/FuseO1-Preview/mergekit
 pip3 install -e .
 model_save_dir=xx # your path to save the merged models
-mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview
+mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview --cudas
 ```
 
 To reproduce the merged [FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) model, using the script below.
@@ -61,7 +67,7 @@ To reproduce the merged [FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview](https://huggi
 cd FuseAI/FuseO1-Preview/mergekit
 pip3 install -e .
 model_save_dir=xxx # your path to save the merged models
-mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-QwQ-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-QwQ-32B-Preview
+mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-QwQ-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-QwQ-32B-Preview --cuda
 ```
 
 We provide the example code to use FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview.
@@ -98,7 +104,7 @@ To reproduce the merged [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](
 cd FuseAI/FuseO1-Preview/mergekit
 pip3 install -e .
 model_save_dir=xxx # your path to save the merged models
-mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview
+mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-Qwen2. 5-Instruct-32B-Preview --cuda
 ```
 
 We provide the code to use FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview.
@@ -141,21 +147,29 @@ Scientific Reasoning
 Code Reasoning
   - LiveCodeBench
 
-The [evaluation code](https://github.com/fanqiwan/FuseAI/tree/main/FuseO1-Preview/evaluation) is modified from [SkyThought](https://github.com/NovaSky-AI/SkyThought). In our evaluation, we set the temperature to 0.7 (sampling) and the max_tokens to 32768.
+The evaluation code is modified from [SkyThought](https://github.com/NovaSky-AI/SkyThought). In our evaluation, we set the temperature to 0.7 and the max_tokens to 32768. We provide the example to reproduce our results in [evaluation](https://github.com/fanqiwan/FuseAI/tree/main/FuseO1-Preview/evaluation).
+
+The system prompt for evaluation is set to:
+
+```sh
+You are a helpful and harmless assistant. You should think step-by-step.
+```
+
+We are currently attempting to reproduce the results reported in the DeepSeek-R1 paper by experimenting with different system prompts. We will update our findings once we have acquired the original system prompt used in their study.
 
 The evaluation results are shown in the table below:
 
 | Models  | AIME24 | MATH500 | GSM8K | GPQA-Diamond | ARC-Challenge | MMLU-Pro | MMLU | LiveCodeBench |
 |:-| ------ | ------- | ----- | ------------ | ------------- | -------- | ---- | ------------- |
-| o1-preview | 44.60 | 85.50 | - | 73.30 | - | - | 90.80 | - |
+| o1-preview | 44.60 | 85.50 | - | 73.30 | - | - | 90.80 | 44.60 |
 | o1-mini | 63.60 | 90.00 | - | 60.00 | - | 80.30 | 85.20| 53.80 |
-| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 46.67 | 88.20 | - | 57.58 | - | - | - | - |
+| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 46.67 | 88.20 | 93.71 | 57.58 | 95.90 | 68.70 | 82.17 | 59.69 |
 | [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) |43.33 | 87.80 | 95.45 | 49.49 | 95.73 | 63.49 | 85.19 | 51.86 |
 | [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 43.33 | 86.80 | 95.15 | 50.51 | 95.56 | 65.80 | 82.71 | 51.66 |
 | [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | 20.00 | 81.60 | 93.63 | 46.46 | 95.22 | 56.27 | 79.63 | 48.53 |
-| [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) | 46.67 | 87.20 | - | 55.05 | - | - | - | - |
-| [FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) | 56.67 | 85.60 | - | 62.12 | - | - | - | - |
-| [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) | 60.00 | 90.00 | - | 62.12 | - | - | - | - |
+| [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) | 46.67 | 87.20 | 93.33 | 55.05 | 96.33 | 68.61 | - | 60.67 |
+| [FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) | 56.67 | 85.60 | 93.78 | 62.12 | 96.08 | 68.85 | - | 59.49 |
+| [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) | 60.00 | 90.00 | 93.33 | 62.12 | 95.90 | 70.79 | - | 58.90 |
 
 ## Future Works
 
