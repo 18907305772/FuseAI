@@ -34,14 +34,15 @@ _Sun Yat-sen University_
 
 To achieve this, we conduct two types of model merging:
 
-- **Long-Long Reasoning Merging**: This approach involves model fusion across LLMs that utilize long-CoT reasoning, with the goal of enhancing long-CoT reasoning capabilities. The resulted [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) achieves an accuracy of **60.00 on AIME24**,  demonstrating significant performance improvements compared to the o1-preview model (44.60) and approaching the performance of the o1-mini model (63.60).
-- **Long-Short Reasoning Merging**: This approach involves model fusion between long-CoT and short-CoT LLMs, aiming to improve reasoning capabilities in both long and short reasoning processes. The resulted [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) is capable of utilizing both long and short reasoning processes and demonstrates relatively strong performance in long reasoning tasks.
+- **Long-Long Reasoning Merging**: This approach involves model fusion across LLMs that utilize long-CoT reasoning, with the goal of enhancing long-CoT reasoning capabilities. The resulted [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) achieves an accuracy of **60.00 on AIME24**,  demonstrating significant performance improvements compared to the o1-preview model (44.60) and approaching the performance of the o1-mini model (63.60).
+- **Long-Short Reasoning Merging**: This approach involves model fusion between long-CoT and short-CoT LLMs, aiming to improve reasoning capabilities in both long and short reasoning processes. The resulted [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) and [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) is capable of utilizing both long and short reasoning processes and demonstrates relatively strong performance in long reasoning tasks.
 
 | Model | Merge Type | Source Models | HF Link |
 |:----- | ---- | ---- | ---- |
-| FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview), [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) |
-| FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview)  | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) |
-| FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview | Long-Short Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) |
+| FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview), [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) |
+| FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview)  | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) |
+| FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview | Long-Short Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) |
+| FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview | Long-Short Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/Qwen2.5-32B-Coder](https://huggingface.co/Qwen/Qwen2.5-32B-Coder) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) |
 
 
 ## Long-Long Reasoning Merging
@@ -52,35 +53,35 @@ We conduct experiments on these folloing long-cot LLMs.
 - [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview)
 - [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview)
 
-To reproduce the merged [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) model, using the script below.
+To reproduce the merged [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) model, using the script below.
 
 ```sh
 cd FuseAI/FuseO1-Preview/mergekit
 pip3 install -e .
 model_save_dir=xx # your path to save the merged models
-mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview --cudas
+mergekit-yaml fuseo1_configs/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview.yaml ${model_save_dir}/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview --cudas
 ```
 
-To reproduce the merged [FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) model, using the script below.
+To reproduce the merged [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) model, using the script below.
 
 ```sh
 cd FuseAI/FuseO1-Preview/mergekit
 pip3 install -e .
 model_save_dir=xxx # your path to save the merged models
-mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-QwQ-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-QwQ-32B-Preview --cuda
+mergekit-yaml fuseo1_configs/FuseO1-DeepSeekR1-QwQ-32B-Preview.yaml ${model_save_dir}/FuseO1-DeepSeekR1-QwQ-32B-Preview --cuda
 ```
 
-We provide the example code to use FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview.
+We provide the example code to use FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview.
 
 ```python3
 from vllm import LLM, SamplingParams
 
-llm = LLM(model="FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview", tensor_parallel_size=8)
-sampling_params = SamplingParams(max_tokens=32768, temperature=0.7, stop=["<｜end▁of▁sentence｜>", "<｜User｜>"], stop_token_ids=[151643, 151644])
+llm = LLM(model="FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview", tensor_parallel_size=8)
+sampling_params = SamplingParams(max_tokens=32768, temperature=0.7, stop=["<|im_end|>", "<｜end▁of▁sentence｜>"], stop_token_ids=[151645, 151643])
 
 conversations = [
     [
-        {"role": "system", "content": "You are a helpful and harmless assistant. You should think step-by-step."},
+        {"role": "system", "content": "Please reason step by step, and put your final answer within \\boxed{{}}."},
         {"role": "user", "content": "Quadratic polynomials $P(x)$ and $Q(x)$ have leading coefficients $2$ and $-2,$ respectively. The graphs of both polynomials pass through the two points $(16,54)$ and $(20,53).$ Find $P(0) + Q(0).$."},
     ],
 ]
@@ -97,27 +98,37 @@ We conduct experiments on these folloing long-cot and short-cot LLMs.
 
 - [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B)
 - [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct)
+- [Qwen/Qwen2.5-32B-Coder](https://huggingface.co/Qwen/Qwen2.5-32B-Coder)
 
-To reproduce the merged [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) model, using the script below.
+To reproduce the merged [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) model, using the script below.
 
 ```sh
 cd FuseAI/FuseO1-Preview/mergekit
 pip3 install -e .
 model_save_dir=xxx # your path to save the merged models
-mergekit-yaml fuseo1_configs/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview.yaml ${model_save_dir}/FuseO1-DeekSeekR1-Qwen2. 5-Instruct-32B-Preview --cuda
+mergekit-yaml fuseo1_configs/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview.yaml ${model_save_dir}/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview --cuda
 ```
 
-We provide the code to use FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview.
+To reproduce the merged [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) model, using the script below.
+
+```sh
+cd FuseAI/FuseO1-Preview/mergekit
+pip3 install -e .
+model_save_dir=xxx # your path to save the merged models
+mergekit-yaml fuseo1_configs/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview.yaml ${model_save_dir}/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview --cuda
+```
+
+We provide the code to use FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview.
 
 ```python3
 from vllm import LLM, SamplingParams
 
-llm = LLM(model="FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview", tensor_parallel_size=8)
-sampling_params = SamplingParams(max_tokens=32768, temperature=0.7, stop=["<｜end▁of▁sentence｜>", "<｜User｜>"], stop_token_ids=[151643, 151644])
+llm = LLM(model="FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview", tensor_parallel_size=8)
+sampling_params = SamplingParams(max_tokens=32768, temperature=0.7, stop=["<|im_end|>", "<｜end▁of▁sentence｜>"], stop_token_ids=[151645, 151643])
 
 conversations = [
     [
-        {"role": "system", "content": "You are a helpful and harmless assistant. You should think step-by-step."},
+        {"role": "system", "content": "Please reason step by step, and put your final answer within \\boxed{{}}."},
         {"role": "user", "content": "Quadratic polynomials $P(x)$ and $Q(x)$ have leading coefficients $2$ and $-2,$ respectively. The graphs of both polynomials pass through the two points $(16,54)$ and $(20,53).$ Find $P(0) + Q(0).$."},
     ],
 ]
@@ -134,8 +145,11 @@ We test the resulted models on three kinds of benchmarks, including **Math Reaso
 
 Math Reasoning
   - AIME24
+  - AMC23
   - MATH500
   - GSM8K
+  - OlympiadBench
+  - College-Math
 
 Scientific Reasoning
   - GPQA-Diamond
@@ -145,7 +159,39 @@ Scientific Reasoning
   
 
 Code Reasoning
-  - LiveCodeBench
+  - LiveCodeBench (2408-2502)
+
+> Important Note: We manully set `"add_bos_token": false` in `tokenizer_config.json` for all the evaluated LLMs to prevent the bos_token to be added twice for each prompt. Please download and modify to ensure consistency.
+
+### Math Reasoning
+
+The evaluation code is modified from [Qwen2.5-Math](https://github.com/QwenLM/Qwen2.5-Math). In our evaluation, we set the temperature to 0.6, the top-p to 0.95 and the max_tokens to 32768. We provide the example to reproduce our results in [math_evaluation](https://github.com/fanqiwan/FuseAI/tree/main/FuseO1-Preview/math_evaluation).
+
+The system prompt for evaluation is set to:
+
+```sh
+Please reason step by step, and put your final answer within \\boxed{{}}.
+```
+
+The evaluation results are shown in the table below:
+
+In our evaluation of AIME24, we follow the method from DeepSeek-R1, wherein Pass@1 is computed by averaging the results across 64 sampled responses per prompt, while Cons@64 is determined through self-consistency analysis of the same 64 sampled responses for each prompt. For other benchmarks, we only sample 1 response and report the Pass@1.
+
+| Models | AIME24 Pass@1 | AIME24 Cons@64 | AMC23 | MATH500 | GSM8K | OlympiadBench | College-Math |
+|:------ | --------------| ------------------- | ------------ | -------------- | ------------ | -------------------- | ------------------- |
+| OpenAI o1 | 79.2 | - | - | 73.3 | - | - | - |
+| OpenAI o1-preview | 44.6 | - | - | 85.5 | - | - | - |
+| OpenAI o1-mini | 63.6 | - | - | 90.0 | - | - | - |
+| DeepSeek R1 | 79.8 | - | - | 97.3 | - | - | - |
+| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | - | - | - | - | - | - | - |
+| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | - | - | - | - | - | - | - |
+| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | - | - | - | - | - | - | - |
+| [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | - | - | - | - | - | - | - |
+| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | - | - | - | - | - | - | - |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) | - | - | - | - | - | - | - |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | - | - | - | - | - | - | - |
+
+### Scientific Reasoning
 
 The evaluation code is modified from [SkyThought](https://github.com/NovaSky-AI/SkyThought). In our evaluation, we set the temperature to 0.7 and the max_tokens to 32768. We provide the example to reproduce our results in [evaluation](https://github.com/fanqiwan/FuseAI/tree/main/FuseO1-Preview/evaluation).
 
@@ -155,21 +201,47 @@ The system prompt for evaluation is set to:
 You are a helpful and harmless assistant. You should think step-by-step.
 ```
 
-We are currently attempting to reproduce the results reported in the DeepSeek-R1 paper by experimenting with different system prompts. We will update our findings once we have acquired the original system prompt used in their study.
+The evaluation results are shown in the table below:
+
+| Models | GPQA-Diamond | ARC-Challenge | MMLU-Pro | MMLU | LiveCodeBench |
+|:------ | --------------| ------------------- | ------------ | -------------- | ------------ |
+| OpenAI o1 | 75.7 | - | - | 91.8 | 63.4 |
+| OpenAI o1-preview | 73.3 | - | - | 90.8 | 44.6 |
+| OpenAI o1-mini | 60.0 | - | 80.3 | 85.2 | 53.8 |
+| DeepSeek R1 | 71.5 | - | 84.0 | 90.8 | 65.9 |
+| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 57.6 | 95.9 | 68.7 | 82.2 | 59.7 |
+| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | 49.5 | 95.7 | 63.5 | 85.2 | 51.9 |
+| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 50.5 | 95.6 | 65.8 | 82.7 | 51.7 |
+| [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | 46.5 | 95.2 | 56.3 | 79.6 | 48.5 |
+| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | 55.1 | 96.3 | 68.6 | 82.0 | 60.7 |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) | 62.1 | 96.1 | 68.9 | 82.7 | 59.5 |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | 62.1 | 95.9 | 70.8 | 83.6 | 58.9 |
+
+## Code Reasoning
+
+The evaluation code is modified from [Qwen2.5-Coder](https://github.com/QwenLM/Qwen2.5-Coder/tree/main/qwencoder-eval/reasoning/livecode_bench_cot). In our evaluation, we set the temperature to 0.6, the top-p to 0.95 and the max_tokens to 32768. We provide the example to reproduce our results in [code_evaluation](https://github.com/fanqiwan/FuseAI/tree/main/FuseO1-Preview/code_evaluation).
+
+The system prompt for evaluation is set to:
+
+```sh
+A conversation between User and Assistant. The user asks a question, and the Assistant solves it. The assistant first thinks about the reasoning process in the mind and then provides the user with the answer. The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>.
+```
+
+In our evaluation of LiveCodeBench, we follow the method from DeepSeek-R1 and make a slight modification. The Pass@1 is computed by averaging the results across 16 sampled responses per prompt.
 
 The evaluation results are shown in the table below:
 
-| Models  | AIME24 | MATH500 | GSM8K | GPQA-Diamond | ARC-Challenge | MMLU-Pro | MMLU | LiveCodeBench |
-|:-| ------ | ------- | ----- | ------------ | ------------- | -------- | ---- | ------------- |
-| o1-preview | 44.60 | 85.50 | - | 73.30 | - | - | 90.80 | 44.60 |
-| o1-mini | 63.60 | 90.00 | - | 60.00 | - | 80.30 | 85.20| 53.80 |
-| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 46.67 | 88.20 | 93.71 | 57.58 | 95.90 | 68.70 | 82.17 | 59.69 |
-| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) |43.33 | 87.80 | 95.45 | 49.49 | 95.73 | 63.49 | 85.19 | 51.86 |
-| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 43.33 | 86.80 | 95.15 | 50.51 | 95.56 | 65.80 | 82.71 | 51.66 |
-| [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | 20.00 | 81.60 | 93.63 | 46.46 | 95.22 | 56.27 | 79.63 | 48.53 |
-| [FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-Qwen2.5-Instruct-32B-Preview) | 46.67 | 87.20 | 93.33 | 55.05 | 96.33 | 68.61 | 82.03 | 60.67 |
-| [FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-32B-Preview) | 56.67 | 85.60 | 93.78 | 62.12 | 96.08 | 68.85 | 82.65 | 59.49 |
-| [FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeekSeekR1-QwQ-SkyT1-32B-Preview) | 60.00 | 90.00 | 93.33 | 62.12 | 95.90 | 70.79 | 83.56 | 58.90 |
+| Models | LiveCodeBench (Pass@1) | LiveCodeBench-Easy (Pass@1) | LiveCodeBench-Medium (Pass@1) | LiveCodeBench-Hard (Pass@1) |
+|:------ | --------------| ------------------- | ------------ | -------------- |
+| OpenAI o1 | 63.4 | 98.5 | 80.9 | 31.7 |
+| OpenAI o1-preview | 42.7 | 97.0 | 47.2 | 9.8 |
+| OpenAI o1-mini | 52.00 | 91.0 | 67.4 | 19.5 |
+| DeepSeek R1 | 62.8 | 98.4 | 78.3 | 32.2 |
+| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | - | - | - | - |
+| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | - | - | - | - |
+| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | - | - | - | - |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | - | - | - | - |
+
 
 ## Future Works
 
