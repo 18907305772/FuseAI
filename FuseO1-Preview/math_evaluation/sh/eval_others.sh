@@ -10,7 +10,7 @@ NUM_TEST_SAMPLE=-1
 
 
 # English open datasets
-DATA_NAME="amc23,math,gsm8k,olympiadbench,college_math"
+DATA_NAME="math,olympiadbench"
 TOKENIZERS_PARALLELISM=false \
 python3 -u ${proj_dir}/math_eval.py \
     --model_name_or_path ${MODEL_NAME_OR_PATH} \

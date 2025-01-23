@@ -33,7 +33,7 @@ done
 
 for model_name in "DeepSeek-R1-Distill-Qwen-32B"
 do
-  seed=0
+  seed=2
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="deepseek-math-cot"
   bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -52,7 +52,7 @@ done
 
 for model_name in "QwQ-32B-Preview"
 do
-  seed=0
+  seed=2
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="qwen25-math-cot"
   bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -71,7 +71,7 @@ done
 
 for model_name in "Sky-T1-32B-Preview"
 do
-  seed=0
+  seed=2
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="sky-t1-math-cot"
   bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -90,7 +90,7 @@ done
 
 for model_name in "Qwen2.5-32B-Instruct"
 do
-  seed=0
+  seed=2
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="qwen25-math-cot"
   bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -109,7 +109,7 @@ done
 
 for model_name in "FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview"
 do
-  seed=0
+  seed=2
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="deepseek-math-cot"
   bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -127,7 +127,7 @@ done
 
 for model_name in "FuseO1-DeepSeekR1-QwQ-32B-Preview"
 do
-  seed=0
+  seed=2
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="deepseek-math-cot"
   bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -146,7 +146,7 @@ done
 
 for model_name in "FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview"
 do
-  seed=0
+  seed=2
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="deepseek-math-cot"
   bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed

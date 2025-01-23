@@ -14,12 +14,12 @@ FuseO1-Preview: System-II Reasoning Fusion of LLMs
 
 <!-- **Authors:** -->
 
-_Fanqi Wan, Longguang Zhong, Ziyi Yang_
+_Fanqi Wan, Longguang Zhong, Ziyi Yang, Weizhou Shen, Xinting Huang_
 
 
 <!-- **Affiliations:** -->
 
-_Sun Yat-sen University_
+_FuseAI Team_
 
 </div>
 
@@ -30,12 +30,16 @@ _Sun Yat-sen University_
 
 ## Overview
 
-[FuseO1-Preview](https://huggingface.co/collections/FuseAI/fuseo1-preview-678eb56093649b2688bc9977) is our initial endeavor to enhance the System-II reasoning capabilities of large language models (LLMs) through innovative model fusion techniques. By employing advanced [SCE](https://arxiv.org/abs/2408.07990) merging methodologies, we integrate multiple open-source o1-like LLMs into a unified model. Our goal is to incorporate the distinct knowledge and strengths from different reasoning LLMs into a single, unified model with strong System-II reasoning abilities, particularly in mathematics, coding, and science domains.
+[FuseO1-Preview](https://huggingface.co/collections/FuseAI/fuseo1-preview-678eb56093649b2688bc9977) is our initial endeavor to enhance the System-II reasoning capabilities of large language models (LLMs) through innovative model fusion techniques. By employing our advanced [SCE](https://arxiv.org/abs/2408.07990) merging methodologies, we integrate multiple open-source o1-like LLMs into a unified model. Our goal is to incorporate the distinct knowledge and strengths from different reasoning LLMs into a single, unified model with strong System-II reasoning abilities, particularly in mathematics, coding, and science domains.
+
+<p align="center">
+    <img src="./assets/sce.jpg" width="70%"> <br>
+</p>
 
 To achieve this, we conduct two types of model merging:
 
-- **Long-Long Reasoning Merging**: This approach involves model fusion across LLMs that utilize long-CoT reasoning, with the goal of enhancing long-CoT reasoning capabilities. The resulted [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) achieves an accuracy of **60.00 on AIME24**,  demonstrating significant performance improvements compared to the o1-preview model (44.60) and approaching the performance of the o1-mini model (63.60).
-- **Long-Short Reasoning Merging**: This approach involves model fusion between long-CoT and short-CoT LLMs, aiming to improve reasoning capabilities in both long and short reasoning processes. The resulted [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) and [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) is capable of utilizing both long and short reasoning processes and demonstrates relatively strong performance in long reasoning tasks.
+- **Long-Long Reasoning Merging**: This approach involves model fusion across LLMs that utilize long-CoT reasoning, with the goal of enhancing long-CoT reasoning capabilities. The resulted [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) achieves a Pass@1 accuracy of **74.0 on AIME24**,  demonstrating significant performance improvements compared to the OpenAI o1-preview (44.6) and OpenAI o1-mini (63.4), even approaching OpenAI o1 (79.2).
+- **Long-Short Reasoning Merging**: This approach involves model fusion between long-CoT and short-CoT LLMs, aiming to improve reasoning capabilities in both long and short reasoning processes. The resulted [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) is capable of utilizing both long and short reasoning processes and demonstrates relatively strong performance in long reasoning tasks.
 
 | Model | Merge Type | Source Models | HF Link |
 |:----- | ---- | ---- | ---- |
@@ -145,15 +149,11 @@ We test the resulted models on three kinds of benchmarks, including **Math Reaso
 
 Math Reasoning
   - AIME24
-  - AMC23
   - MATH500
-  - GSM8K
   - OlympiadBench
-  - College-Math
 
 Scientific Reasoning
   - GPQA-Diamond
-  - ARC-Challenge
   - MMLU-Pro
   - MMLU
   
@@ -175,21 +175,23 @@ Please reason step by step, and put your final answer within \\boxed{{}}.
 
 The evaluation results are shown in the table below:
 
-In our evaluation of AIME24, we follow the method from DeepSeek-R1, wherein Pass@1 is computed by averaging the results across 64 sampled responses per prompt, while Cons@64 is determined through self-consistency analysis of the same 64 sampled responses for each prompt. For other benchmarks, we only sample 1 response and report the Pass@1.
+In our evaluation of AIME24, we follow the method from DeepSeek-R1, wherein Pass@1 is computed by averaging the results across 32 sampled responses per prompt, while Cons@32 is determined through self-consistency analysis of the same 64 sampled responses for each prompt. For other benchmarks, we only sample 1 response and report the Pass@1.
 
-| Models | AIME24 Pass@1 | AIME24 Cons@64 | AMC23 | MATH500 | GSM8K | OlympiadBench | College-Math |
-|:------ | --------------| ------------------- | ------------ | -------------- | ------------ | -------------------- | ------------------- |
-| OpenAI o1 | 79.2 | - | - | 73.3 | - | - | - |
-| OpenAI o1-preview | 44.6 | - | - | 85.5 | - | - | - |
-| OpenAI o1-mini | 63.6 | - | - | 90.0 | - | - | - |
-| DeepSeek R1 | 79.8 | - | - | 97.3 | - | - | - |
-| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | - | - | - | - | - | - | - |
-| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | - | - | - | - | - | - | - |
-| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | - | - | - | - | - | - | - |
-| [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | - | - | - | - | - | - | - |
-| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | - | - | - | - | - | - | - |
-| [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) | - | - | - | - | - | - | - |
-| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | - | - | - | - | - | - | - |
+| Models | AIME24 Pass@1 | AIME24 Cons@32 | MATH500 | OlympiadBench |
+|:------ | --------------| ------------------- | ------------ | -------------- |
+| OpenAI o1 | 79.2 | - | 96.4 | - |
+| OpenAI o1-preview | 44.6 | - | 85.5 | - |
+| OpenAI o1-mini | 63.6 | - | 90.0 | - |
+| DeepSeek R1 | 79.8 | - | 97.3 | - |
+| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 69.2 | 83.3 | 93.6 | 64.3 |
+| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | 43.8 | 56.7 | 88.4 | 60.3 |
+| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 37.7 | 50.0 | 88.0 | - |
+| [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | 17.0 | 20.0 | 81.8 | 48.1 |
+| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | 68.6 | 83.3 | 94.6 | 64.9 |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) | 69.7 | 83.3 | 94.6 | 64.0 |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | 74.0 | 86.7 | 94.8 | 65.0 |
+
+We show that our merged FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview demonstrate superior performance improvements comparet to DeepSeek-R1-Distill-Qwen-32B, QwQ-32B-Preview, and Sky-T1-32B-Preview on math reasoning. Specifically, our model achieves an accuracy of **74.0 Pass@1 and 86.7 Cons@32 on AIME24**,  demonstrating significant performance improvements compared to DeepSeek-R1-Distill-Qwen-32B (69.2 Pass@1 and 83.3 Cons@32), OpenAI o1-preview (44.6 Pass@1) and OpenAI o1-mini (63.4 Pass@1), even approaching OpenAI o1 (79.2 Pass@1).
 
 ### Scientific Reasoning
 
@@ -203,19 +205,22 @@ You are a helpful and harmless assistant. You should think step-by-step.
 
 The evaluation results are shown in the table below:
 
-| Models | GPQA-Diamond | ARC-Challenge | MMLU-Pro | MMLU | LiveCodeBench |
-|:------ | --------------| ------------------- | ------------ | -------------- | ------------ |
-| OpenAI o1 | 75.7 | - | - | 91.8 | 63.4 |
-| OpenAI o1-preview | 73.3 | - | - | 90.8 | 44.6 |
-| OpenAI o1-mini | 60.0 | - | 80.3 | 85.2 | 53.8 |
-| DeepSeek R1 | 71.5 | - | 84.0 | 90.8 | 65.9 |
-| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 57.6 | 95.9 | 68.7 | 82.2 | 59.7 |
-| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | 49.5 | 95.7 | 63.5 | 85.2 | 51.9 |
-| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 50.5 | 95.6 | 65.8 | 82.7 | 51.7 |
-| [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | 46.5 | 95.2 | 56.3 | 79.6 | 48.5 |
-| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | 55.1 | 96.3 | 68.6 | 82.0 | 60.7 |
-| [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) | 62.1 | 96.1 | 68.9 | 82.7 | 59.5 |
-| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | 62.1 | 95.9 | 70.8 | 83.6 | 58.9 |
+| Models | GPQA-Diamond| MMLU-Pro | MMLU |
+|:------ | --------------| ------------ | -------------- |
+| OpenAI o1 | 75.7 | - | 91.8 |
+| OpenAI o1-preview | 73.3 | - | 90.8 |
+| OpenAI o1-mini | 60.0 | 80.3 | 85.2 |
+| DeepSeek R1 | 71.5 | 84.0 | 90.8 |
+| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 57.6 | 68.7 | 82.2 |
+| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | 49.5 | 63.5 | 85.2 |
+| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 50.5 | 65.8 | 82.7 |
+| [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | 46.5 | 56.3 | 79.6 |
+| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | 55.1 | 68.6 | 82.0 |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) | 62.1 | 68.9 | 82.7 |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | 62.1 | 70.8 | 83.6 |
+
+We show that our merged FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview demonstrate superior performance improvements comparet to DeepSeek-R1-Distill-Qwen-32B, QwQ-32B-Preview, and Sky-T1-32B-Preview on scientific reasoning. Specifically, our model achieves an accuracy of **62.1 on GPQA-Diamond and 70.8 on MMLU-Pro**, demonstrating significant performance improvements compared to DeepSeek-R1-Distill-Qwen-32B (57.6 on GPQA-Diamond and 68.7 on MMLU-Pro).
+
 
 ## Code Reasoning
 
@@ -237,11 +242,14 @@ The evaluation results are shown in the table below:
 | OpenAI o1-preview | 42.7 | 97.0 | 47.2 | 9.8 |
 | OpenAI o1-mini | 52.00 | 91.0 | 67.4 | 19.5 |
 | DeepSeek R1 | 62.8 | 98.4 | 78.3 | 32.2 |
-| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | - | - | - | - |
-| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | - | - | - | - |
-| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | - | - | - | - |
-| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | - | - | - | - |
+| [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 56.1 | 93.6 | 73.1 | 23.4 |
+| [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | 44.4 | 94.9 | 53.8 | 10.0 |
+| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) (N=1) | 11.8 | 32.8 | 9.0 | 2.4 |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | 57.9 | 93.6 | 76.0 | 25.5 |
 
+We show that our merged FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview demonstrate superior performance improvements comparet to DeepSeek-R1-Distill-Qwen-32B, QwQ-32B-Preview, and Sky-T1-32B-Preview on scientific reasoning. Specifically, our model achieves an accuracy of **57.9 on LiveCodeBench and 25.5 on LiveCodeBench-Hard**,  demonstrating significant performance improvements compared to DeepSeek-R1-Distill-Qwen-32B (56.1 on LiveCodeBench and 23.4 on LiveCodeBench-Hard), OpenAI o1-preview (42.7 on LiveCodeBench and 9.8 on LiveCodeBench-Hard) and OpenAI o1-mini (52.0 on LiveCodeBench and 19.5 on LiveCodeBench-Hard Pass@1).
+
+However, we note that the code merged model dose not perform well. We suggets this could be due to the large weight different between Qwen-2.5-Coder-32B and DeepSeek-R1-Distill-Qwen-32B, thus lead to decreased performance.
 
 ## Future Works
 

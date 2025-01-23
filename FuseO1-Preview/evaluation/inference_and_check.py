@@ -59,7 +59,7 @@ def perform_inference_and_check(handler: TaskHandler, temperatures, max_tokens, 
 
         else:
             if args.model in ["DeepSeek-R1-Distill-Qwen-32B", "FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview", "FuseO1-DeepSeekR1-QwQ-32B-Preview", "FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview"]:
-                sampling_params = SamplingParams(max_tokens=max_tokens, temperature=temp, stop=["<｜end▁of▁sentence｜>", "<｜User｜>"], stop_token_ids=[151643, 151644])
+                sampling_params = SamplingParams(max_tokens=max_tokens, temperature=temp, stop=["<|im_end|>", "<｜end▁of▁sentence｜>"], stop_token_ids=[151645, 151643])
             else:
                 sampling_params = SamplingParams(max_tokens=max_tokens, temperature=temp, stop=["<|im_end|>", "<|endoftext|>"], stop_token_ids=[151645, 151643])
             responses = llm.chat(messages=conversations, sampling_params=sampling_params, use_tqdm=True)
@@ -235,7 +235,7 @@ def perform_inference_and_save(handler: TaskHandler, temperatures, max_tokens, r
 
         else:
             if args.model in ["DeepSeek-R1-Distill-Qwen-32B", "FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview", "FuseO1-DeepSeekR1-QwQ-32B-Preview", "FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview"]:
-                sampling_params = SamplingParams(max_tokens=max_tokens, temperature=temp, stop=["<｜end▁of▁sentence｜>", "<｜User｜>"], stop_token_ids=[151643, 151644])
+                sampling_params = SamplingParams(max_tokens=max_tokens, temperature=temp, stop=["<|im_end|>", "<｜end▁of▁sentence｜>"], stop_token_ids=[151645, 151643])
             else:
                 sampling_params = SamplingParams(max_tokens=max_tokens, temperature=temp, stop=["<|im_end|>", "<|endoftext|>"], stop_token_ids=[151645, 151643])
             responses = llm.chat(messages=conversations, sampling_params=sampling_params, use_tqdm=True)

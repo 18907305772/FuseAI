@@ -1,0 +1,11 @@
+models:
+  # Pivot model
+  - model: Qwen/Qwen2.5-32B
+  # Target models
+  - model: Qwen/Qwen2.5-32B-Coder
+  - model: DeepSeek-R1-Distill-Qwen-32B
+merge_method: sce
+base_model: Qwen/Qwen2.5-32B
+parameters:
+  select_topk: 1.0
+dtype: bfloat16
