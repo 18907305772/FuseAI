@@ -24,7 +24,7 @@ result_dir="<YOUR_RESULT_DIR>"
 
 for model_name in "DeepSeek-R1-Distill-Qwen-32B"
 do
-for ((seed=0; seed<=63; seed++)); do
+for ((seed=0; seed<=31; seed++)); do
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="deepseek-math-cot"
   bash ./sh/eval_aime.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -43,7 +43,7 @@ done
 
 for model_name in "QwQ-32B-Preview"
 do
-for ((seed=0; seed<=63; seed++)); do
+for ((seed=0; seed<=31; seed++)); do
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="qwen25-math-cot"
   bash ./sh/eval_aime.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -62,7 +62,7 @@ done
 
 for model_name in "Sky-T1-32B-Preview"
 do
-for ((seed=0; seed<=63; seed++)); do
+for ((seed=0; seed<=31; seed++)); do
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="sky-t1-math-cot"
   bash ./sh/eval_aime.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -81,7 +81,7 @@ done
 
 for model_name in "Qwen2.5-32B-Instruct"
 do
-for ((seed=0; seed<=63; seed++)); do
+for ((seed=0; seed<=31; seed++)); do
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="qwen25-math-cot"
   bash ./sh/eval_aime.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -100,7 +100,7 @@ done
 
 for model_name in "FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview"
 do
-for ((seed=0; seed<=63; seed++)); do
+for ((seed=0; seed<=31; seed++)); do
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="deepseek-math-cot"
   bash ./sh/eval_aime.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -118,7 +118,7 @@ done
 # FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview
 or model_name in "FuseO1-DeepSeekR1-QwQ-32B-Preview"
 do
-for ((seed=0; seed<=63; seed++)); do
+for ((seed=0; seed<=31; seed++)); do
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="deepseek-math-cot"
   bash ./sh/eval_aime.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
@@ -137,7 +137,7 @@ done
 
 for model_name in "FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview"
 do
-for ((seed=0; seed<=63; seed++)); do
+for ((seed=0; seed<=31; seed++)); do
   mkdir -p "${result_dir}/${model_name}-seed${seed}"
   prompt_type="deepseek-math-cot"
   bash ./sh/eval_aime.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
