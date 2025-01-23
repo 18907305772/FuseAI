@@ -10,7 +10,7 @@ Knowledge Fusion of Large Language Models
 <img src="https://img.shields.io/github/stars/fanqiwan/FuseLLM?color=yellow" alt="Stars">
 <img src="https://img.shields.io/github/issues/fanqiwan/FuseLLM?color=red" alt="Issues">
 
-<h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 FuseLLM Paper @ICLR2024 </a> | <a href="https://arxiv.org/abs/2408.07990"> 📑 FuseChat Tech Report </a> | <a href="https://arxiv.org/abs/2412.03187"> 📑 WRPO Tech Report </a> | <a href="https://huggingface.co/FuseAI"> 🤗 HuggingFace Repo </a> | <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 GitHub Repo </a> | <a href="https://huggingface.co/blog/Wanfq/fusechat-3"> 🌐 FuseChat-3.0 Blog </a> | <a href="https://huggingface.co/blog/Wanfq/fuseo1-preview"> 🌐 FuseO1-Preview Blog </a> |
+<h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 FuseLLM Paper @ICLR2024 </a> | <a href="https://arxiv.org/abs/2408.07990"> 📑 FuseChat Tech Report </a> | <a href="https://arxiv.org/abs/2412.03187"> 📑 WRPO Paper @ICLR2025 </a> | <a href="https://huggingface.co/FuseAI"> 🤗 HuggingFace Repo </a> | <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 GitHub Repo </a> | <a href="https://huggingface.co/blog/Wanfq/fusechat-3"> 🌐 FuseChat-3.0 Blog </a> | <a href="https://huggingface.co/blog/Wanfq/fuseo1-preview"> 🌐 FuseO1-Preview Blog </a> |
 </h4>
 
 <p align="center">
