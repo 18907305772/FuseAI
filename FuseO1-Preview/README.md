@@ -43,10 +43,10 @@ To achieve this, we conduct two types of model merging:
 
 | Model | Merge Type | Source Models | HF Link |
 |:----- | ---- | ---- | ---- |
-| FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview), [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) |
-| FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview)  | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) |
-| FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview | Long-Short Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) |
-| FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview | Long-Short Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/Qwen2.5-32B-Coder](https://huggingface.co/Qwen/Qwen2.5-32B-Coder) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview), [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview), [GGUF](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview-GGUF) |
+| [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) | Long-Long Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview)  | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) |
+| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | Long-Short Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) |
+| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) | Long-Short Reasoning Merge | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B), [Qwen/Qwen2.5-32B-Coder](https://huggingface.co/Qwen/Qwen2.5-32B-Coder) | [🤗 Hugging Face](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) |
 
 
 ## Long-Long Reasoning Merging
@@ -236,7 +236,7 @@ In our evaluation of LiveCodeBench, we follow the method from DeepSeek-R1 and ma
 
 The evaluation results are shown in the table below:
 
-| Models | LiveCodeBench (Pass@1) | LiveCodeBench-Easy (Pass@1) | LiveCodeBench-Medium (Pass@1) | LiveCodeBench-Hard (Pass@1) |
+| Models | LiveCodeBench | LiveCodeBench-Easy | LiveCodeBench-Medium | LiveCodeBench-Hard |
 |:------ | --------------| ------------------- | ------------ | -------------- |
 | OpenAI o1 | 63.4 | 98.5 | 80.9 | 31.7 |
 | OpenAI o1-preview | 42.7 | 97.0 | 47.2 | 9.8 |
@@ -244,12 +244,9 @@ The evaluation results are shown in the table below:
 | DeepSeek R1 | 62.8 | 98.4 | 78.3 | 32.2 |
 | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 56.1 | 93.6 | 73.1 | 23.4 |
 | [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | 44.4 | 94.9 | 53.8 | 10.0 |
-| [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview) (N=1) | 11.8 | 32.8 | 9.0 | 2.4 |
 | [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) | 57.9 | 93.6 | 76.0 | 25.5 |
 
 We show that our merged FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview demonstrate superior performance improvements comparet to DeepSeek-R1-Distill-Qwen-32B, QwQ-32B-Preview, and Sky-T1-32B-Preview on scientific reasoning. Specifically, our model achieves an accuracy of **57.9 on LiveCodeBench and 25.5 on LiveCodeBench-Hard**,  demonstrating significant performance improvements compared to DeepSeek-R1-Distill-Qwen-32B (56.1 on LiveCodeBench and 23.4 on LiveCodeBench-Hard), OpenAI o1-preview (42.7 on LiveCodeBench and 9.8 on LiveCodeBench-Hard) and OpenAI o1-mini (52.0 on LiveCodeBench and 19.5 on LiveCodeBench-Hard Pass@1).
-
-However, we note that the code merged model dose not perform well. We suggets this could be due to the large weight different between Qwen-2.5-Coder-32B and DeepSeek-R1-Distill-Qwen-32B, thus lead to decreased performance.
 
 ## Future Works
 
