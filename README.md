@@ -103,11 +103,12 @@ Please cite the following paper if you reference our model, code, data, or paper
 
 Please cite the following paper if you reference our model, code, data, or paper related to WRPO.
 ```
-@article{yang2024wrpo,
+@inproceedings{yang2025weightedreward,
   title={Weighted-Reward Preference Optimization for Implicit Model Fusion},
   author={Ziyi Yang and Fanqi Wan and Longguang Zhong and Tianyuan Shi and Xiaojun Quan},
-  journal={arXiv preprint arXiv:2412.03187},
-  year={2024}
+  booktitle={The Thirteenth International Conference on Learning Representations},
+  year={2025},
+  url={https://openreview.net/forum?id=fq24pEb8SL}
 }
 ```
 
