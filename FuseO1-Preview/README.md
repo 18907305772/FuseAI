@@ -175,7 +175,7 @@ Please reason step by step, and put your final answer within \\boxed{{}}.
 
 The evaluation results are shown in the table below:
 
-In our evaluation of AIME24, we follow the method from DeepSeek-R1, wherein Pass@1 is computed by averaging the results across 32 sampled responses per prompt, while Cons@32 is determined through self-consistency analysis of the same 64 sampled responses for each prompt. For other benchmarks, we only sample 1 response and report the Pass@1.
+In our evaluation of AIME24, we follow the method from DeepSeek-R1, wherein Pass@1 is computed by averaging the results across 32 sampled responses per prompt, while Cons@32 is determined through self-consistency analysis of the same 32 sampled responses for each prompt. For other benchmarks, we only sample 1 response and report the Pass@1.
 
 | Models | AIME24 Pass@1 | AIME24 Cons@32 | MATH500 | OlympiadBench |
 |:------ | --------------| ------------------- | ------------ | -------------- |
@@ -185,7 +185,7 @@ In our evaluation of AIME24, we follow the method from DeepSeek-R1, wherein Pass
 | DeepSeek R1 | 79.8 | - | 97.3 | - |
 | [deepseek-ai/DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) | 69.2 | 83.3 | 93.6 | 64.3 |
 | [Qwen/QwQ-32B-Preview](https://huggingface.co/Qwen/QwQ-32B-Preview) | 43.8 | 56.7 | 88.4 | 60.3 |
-| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 37.7 | 50.0 | 88.0 | - |
+| [NovaSky-AI/Sky-T1-32B-Preview](https://huggingface.co/NovaSky-AI/Sky-T1-32B-Preview) | 37.7 | 50.0 | 88.0 | 55.1 |
 | [Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) | 17.0 | 20.0 | 81.8 | 48.1 |
 | [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) | 68.6 | 83.3 | 94.6 | 64.9 |
 | [FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview) | 69.7 | 83.3 | 94.6 | 64.0 |
