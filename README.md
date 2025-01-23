@@ -13,7 +13,8 @@ Knowledge Fusion of Large Language Models
 <h4> |<a href="https://arxiv.org/abs/2401.10491"> 📑 FuseLLM Paper @ICLR2024 </a> |
 <a href="https://arxiv.org/abs/2408.07990"> 📑 FuseChat Tech Report </a> |
 <a href="https://arxiv.org/abs/2412.03187"> 📑 WRPO Tech Report </a> |
-<a href="https://slit-ai.github.io/FuseChat-3.0/"> 🌐 Website </a> |
+<a href="https://huggingface.co/blog/Wanfq/fusechat-3"> 🌐 FuseChat-3.0 Blog </a> |
+<a href="https://huggingface.co/blog/Wanfq/fuseo1-preview"> 🌐 FuseO1-Preview Blog </a> |
     
 |<a href="https://huggingface.co/FuseAI"> 🤗 HuggingFace Repo </a> |
 <a href="https://github.com/fanqiwan/FuseLLM"> 🐱 GitHub Repo </a> |
@@ -28,14 +29,15 @@ Knowledge Fusion of Large Language Models
 
 ## News
 
-### FuseO1-Preview [Comparable to o1-mini on AIME24]
+### FuseO1-Preview [74.0 on AIME24, approaching OpenAI o1's 79.2]
 
-- **Jan 21, 2025:** 🔥 [FuseO1-Preview](https://huggingface.co/collections/FuseAI/fuseo1-preview-678eb56093649b2688bc9977) is our initial endeavor to enhance the System-II reasoning capabilities of large language models (LLMs) through innovative model fusion techniques. By employing advanced [SCE](https://arxiv.org/abs/2408.07990) merging methodologies, we integrate multiple open-source o1-like LLMs into a unified model. Our goal is to incorporate the distinct knowledge and strengths from different reasoning LLMs into a single, unified model with strong System-II reasoning abilities, particularly in mathematics, coding, and science domains.
+- **Jan 21, 2025:** 🔥 [FuseO1-Preview](https://huggingface.co/collections/FuseAI/fuseo1-preview-678eb56093649b2688bc9977) is our initial endeavor to enhance the System-II reasoning capabilities of large language models (LLMs) through innovative model fusion techniques. By employing our advanced [SCE](https://arxiv.org/abs/2408.07990) merging methodologies, we integrate multiple open-source o1-like LLMs into a unified model. Our goal is to incorporate the distinct knowledge and strengths from different reasoning LLMs into a single, unified model with strong System-II reasoning abilities, particularly in mathematics, coding, and science domains.
 
 To achieve this, we conduct two types of model merging:
 
-- **Long-Long Reasoning Merging**: This approach involves model fusion across LLMs that utilize long-CoT reasoning, with the goal of enhancing long-CoT reasoning capabilities. The resulted [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) achieves an accuracy of **60.00 on AIME24**,  demonstrating significant performance improvements compared to the o1-preview model (44.60) and approaching the performance of the o1-mini model (63.60).
-- **Long-Short Reasoning Merging**: This approach involves model fusion between long-CoT and short-CoT LLMs, aiming to improve reasoning capabilities in both long and short reasoning processes. The resulted [FuseAI/FuseO1-DeekSeepR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) is capable of utilizing both long and short reasoning processes and demonstrates relatively strong performance in long reasoning tasks.
+- **Long-Long Reasoning Merging**: This approach involves model fusion across LLMs that utilize long-CoT reasoning, with the goal of enhancing long-CoT reasoning capabilities. The resulted [FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview) achieves a Pass@1 accuracy of **74.0 on AIME24**,  demonstrating significant performance improvements compared to the OpenAI o1-preview (44.6) and OpenAI o1-mini (63.4), even approaching OpenAI o1 (79.2).
+- **Long-Short Reasoning Merging**: This approach involves model fusion between long-CoT and short-CoT LLMs, aiming to improve reasoning capabilities in both long and short reasoning processes. The resulted [FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview](https://huggingface.co/FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview) is capable of utilizing both long and short reasoning processes and demonstrates relatively strong performance in long reasoning tasks.
+
 
 <p align="center">
     <img src="./FuseO1-Preview/assets/fuseo1-preview.jpg" width="100%"> <br>
