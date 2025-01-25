@@ -24,5 +24,7 @@ bash ./sh/evaluate_qwq.sh Qwen/QwQ-32B-Preview ./lcb_results/QwQ-32B-Preview
 
 bash ./sh/evaluate_ds.sh FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview ./lcb_results/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview
 
+bash ./sh/evaluate_ds.sh FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-Flash-32B-Preview ./lcb_results/FuseO1-DeepSeekR1-QwQ-SkyT1-Flash-32B-Preview
+
 bash ./sh/evaluate_ds.sh FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview ./lcb_results/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview
 ```

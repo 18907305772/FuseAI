@@ -115,6 +115,26 @@ do
   bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
 done
 
+# FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-Flash-32B-Preview
+
+for model_name in "FuseO1-DeepSeekR1-QwQ-SkyT1-Flash-32B-Preview"
+do
+for ((seed=0; seed<=31; seed++)); do
+  mkdir -p "${result_dir}/${model_name}-seed${seed}"
+  prompt_type="deepseek-math-cot"
+  bash ./sh/eval_aime.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
+done
+done
+
+for model_name in "FuseO1-DeepSeekR1-QwQ-SkyT1-Flash-32B-Preview"
+do
+  seed=2
+  mkdir -p "${result_dir}/${model_name}-seed${seed}"
+  prompt_type="deepseek-math-cot"
+  bash ./sh/eval_others.sh $prompt_type ${model_path}/${model_name} "${result_dir}/${model_name}-seed${seed}" $seed
+done
+
+
 # FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview
 or model_name in "FuseO1-DeepSeekR1-QwQ-32B-Preview"
 do

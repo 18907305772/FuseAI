@@ -59,6 +59,13 @@ LanguageModelList: list[LanguageModel] = [
         link=None,
     ),
     LanguageModel(
+        "FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-Flash-32B-Preview",
+        "FuseO1-DeepSeekR1-QwQ-SkyT1-Flash-32B-Preview",
+        LMStyle.DeepSeekR1,
+        datetime(2025, 1, 21),
+        link=None,
+    ),
+    LanguageModel(
         "FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview",
         "FuseO1-DeepSeekR1-Qwen2.5-Coder-32B-Preview",
         LMStyle.DeepSeekR1,

@@ -28,5 +28,7 @@ python3 eval.py --model FuseAI/FuseO1-DeepSeekR1-Qwen2.5-Instruct-32B-Preview --
 
 python3 eval.py --model FuseAI/FuseO1-DeepSeekR1-QwQ-32B-Preview --evals=GPQA,MMLUPro,MMLU --tp=8 --output_file=results.txt --temperatures 0.7
 
+python3 eval.py --model FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-Flash-32B-Preview --evals=GPQA,MMLUPro,MMLU --tp=8 --output_file=results.txt --temperatures 0.7
+
 python3 eval.py --model FuseAI/FuseO1-DeepSeekR1-QwQ-SkyT1-32B-Preview --evals=GPQA,MMLUPro,MMLU --tp=8 --output_file=results.txt --temperatures 0.7
 ```
